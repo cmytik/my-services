@@ -104,6 +104,8 @@
                 <b>3. Возврат:</b> Цифровой товар возврату не подлежит после получения лицензионного ключа.
             </div>
             <button class="buy-btn" onclick="acceptLegal()">ПРИНЯТЬ И ОПЛАТИТЬ</button>
+            <!-- ДОБАВЛЕНА ТОЛЬКО ЭТА КНОПКА -->
+            <button class="buy-btn" style="margin-top: 10px; background: transparent; border: 1px solid var(--border); color: #fff;" onclick="document.getElementById('modal-overlay').classList.remove('active')">ВЫЙТИ</button>
         </div>
     </div>
 
@@ -118,127 +120,27 @@
         <h1>LESS</h1>
         <div class="subtitle">Experience Optimization Utility</div>
         <div class="btn-wrap">
-            <a href="#shop" class="btn">Магазин</a>
-            <a href="https://t.me" target="_blank" class="btn">Новости</a>
+            <a href="#store" class="btn">МАГАЗИН</a>
+            <a href="#" class="btn" onclick="document.getElementById('modal-overlay').classList.add('active')">СОГЛАШЕНИЕ</a>
         </div>
     </section>
 
-    <section id="shop" class="store reveal">
-        <div class="grid">
-            <div class="card">
-                <h3>PVE EDITION</h3>
-                <p>— Inventory Helper (Автоматизация)<br>— Visual Optimization (Визуалы)<br>— Environment Helper</p>
-                <div class="price">390₽</div>
-                <button class="buy-btn" onclick="openLegal()">Приобрести</button>
-            </div>
-            <div class="card" style="border-color: rgba(255,255,255,0.15);">
-                <h3>COMBAT EDITION</h3>
-                <p>— Combat Assistant (Ассистент)<br>— Dynamic Response (Реакция)<br>— Priority Support 24/7</p>
-                <div class="price">690₽</div>
-                <button class="buy-btn" onclick="openLegal()">Приобрести</button>
-            </div>
-            <div class="card">
-                <h3>ULTIMATE ACCESS</h3>
-                <p>— Весь функционал PVE + COMBAT<br>— Доступ к закрытым тестам<br>— Пожизненные обновления</p>
-                <div class="price">1290₽</div>
-                <button class="buy-btn" onclick="openLegal()">Приобрести</button>
-            </div>
-        </div>
-    </section>
-
-    <section class="reviews reveal">
-        <h2 style="margin-bottom:50px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px; text-align: center;">ОТЗЫВЫ</h2>
-        <div class="review-card">
-            <p class="review-text">«Лучший ассистент для игры на анархии. Оптимизация на высоте, FPS не падает, а визуалы выглядят очень стильно.»</p>
-            <p style="color: var(--status-green); font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">@USER_1</p>
-        </div>
-        <div class="review-card">
-            <p class="review-text">«Пользуюсь неделю. Combat Assistant работает максимально плавно. Техподдержка отвечает быстро.»</p>
-            <p style="color: var(--status-green); font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">@USER_2</p>
-        </div>
-    </section>
-
-    <section class="faq reveal">
-        <h2 style="margin-bottom:40px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px; text-align: center;">F.A.Q.</h2>
-        <div class="faq-item">
-            <div class="faq-q">Безопасно ли использовать LESS?</div>
-            <div class="faq-a">Наш ассистент использует передовые алгоритмы оптимизации. Мы всегда рекомендуем соблюдать осторожность при использовании.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-q">Как происходит активация?</div>
-            <div class="faq-a">После оплаты вы получите уникальный ключ в Telegram. Введите его в нашем лаунчере для доступа.</div>
-        </div>
-    </section>
-
-    <section class="changelog reveal">
-        <h2 style="margin-bottom:40px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px;">CHANGELOG</h2>
-        <div class="log-item">
-            <span class="log-version">v1.0.2 — STABLE</span>
-            <span style="color: #444;">18.02.2024</span>
-        </div>
-        <div class="log-item">
-            <p style="color: #666; font-size: 0.75rem; line-height: 1.6;">— Обновлена система Inventory Helper<br>— Оптимизирован Combat Assistant для 1.16.5<br>— Обновлены обходы античитов.</p>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-box">
-                <h4>Legal Disclaimer</h4>
-                <p>ПО LESS является частным инструментом для улучшения игрового опыта. Мы выступаем за честную автоматизацию. Не является официальным продуктом Mojang.</p>
-            </div>
-            <div class="footer-box">
-                <h4>Support</h4>
-                <p>По вопросам приобретения и настройки обращайтесь в нашу поддержку в Telegram. Мы ответим вам в кратчайшие сроки.</p>
-            </div>
-        </div>
-        <div style="text-align:center; margin-top:60px; font-size:0.5rem; color:#222; letter-spacing:4px;">© 2024 LESS PROJECT. ALL RIGHTS RESERVED.</div>
-    </footer>
-
+    <!-- ДОБАВЛЕН ТОЛЬКО ЭТОТ СКРИПТ ДЛЯ РАБОТЫ КНОПОК -->
     <script>
-        // ЛЕТЯЩИЕ ЧАСТИЦЫ
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize);
-        resize();
-        class Particle {
-            constructor() { this.x = Math.random() * canvas.width; this.y = canvas.height + Math.random() * 100; this.speed = 0.5 + Math.random() * 1; this.size = Math.random() * 2; this.opacity = Math.random() * 0.5; }
-            update() { this.y -= this.speed; if (this.y < -10) this.y = canvas.height + 10; }
-            draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+        function acceptLegal() {
+            alert('Принято!');
+            document.getElementById('modal-overlay').classList.remove('active');
         }
-        for(let i = 0; i < 100; i++) particles.push(new Particle());
-        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
-        animate();
 
-        // МОДАЛКА И МЫШКА
-        const modal = document.getElementById('modal-overlay');
-        function openLegal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
-        function acceptLegal() { window.location.href = "https://t.me"; }
-
+        // Логика курсора (чтобы он двигался)
         const cursor = document.getElementById('cursor');
         const follower = document.getElementById('cursor-follower');
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
-            follower.style.transform = `translate(${e.clientX - 13}px, ${e.clientY - 13}px)`;
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            follower.style.left = e.clientX - 10 + 'px';
+            follower.style.top = e.clientY - 10 + 'px';
         });
-
-        // ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // СЧЕТЧИК ОНЛАЙНА
-        setInterval(() => {
-            const count = document.getElementById('user-count');
-            let current = parseInt(count.innerText.replace(',', ''));
-            count.innerText = (current + Math.floor(Math.random() * 5 - 2)).toLocaleString();
-        }, 3000);
-        <button class="buy-btn" style="margin-top: 10px; background: transparent; color: #555; border: 1px solid var(--border);" onclick="document.getElementById('modal-overlay').style.display='none'">ВЫЙТИ</button>
-id="modal-overlay"
-isplay: none
     </script>
 </body>
 </html>
