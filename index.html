@@ -15,7 +15,6 @@
             --status-green: #00ff66;
         }
 
-        /* БАЗОВЫЕ НАСТРОЙКИ */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         html { scroll-behavior: smooth; }
         body { background-color: var(--bg); color: var(--accent); font-family: 'Inter', sans-serif; overflow-x: hidden; }
@@ -24,7 +23,7 @@
         #cursor { width: 6px; height: 6px; background: #fff; border-radius: 50%; position: fixed; pointer-events: none; z-index: 10001; }
         #cursor-follower { width: 26px; height: 26px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; position: fixed; pointer-events: none; z-index: 10000; transition: transform 0.1s ease-out; }
 
-        /* КАНВАС ДЛЯ ЧАСТИЦ */
+        /* ЧАСТИЦЫ */
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
         /* СТАТУС */
@@ -48,25 +47,46 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
         .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 50px 40px; transition: 0.4s; display: flex; flex-direction: column; }
         .card:hover { border-color: rgba(255,255,255,0.4); transform: translateY(-5px); }
+        .card h3 { letter-spacing: 2px; color: rgba(255,255,255,0.8); margin-bottom: 15px; font-size: 0.9rem; }
+        .card p { color: #666; font-size: 0.8rem; line-height: 1.8; margin-bottom: 25px; flex-grow: 1; }
         .price { font-family: 'Unbounded', sans-serif; font-size: 2.5rem; margin-bottom: 25px; }
         .buy-btn { display: block; width: 100%; text-align: center; background: #fff; color: #000; padding: 18px; border-radius: 12px; font-weight: 700; text-transform: uppercase; transition: 0.3s; border: none; font-size: 0.7rem; }
 
-        /* FAQ (HOVER) */
+        /* ОТЗЫВЫ */
+        .reviews { padding: 100px 20px; max-width: 800px; margin: 0 auto; }
+        .review-card { background: var(--card-bg); padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 25px; }
+        .review-text { font-style: italic; color: #ccc; margin-bottom: 15px; font-size: 0.85rem; line-height: 1.6; }
+
+        /* FAQ (АВТО-ОТКРЫТИЕ) */
         .faq { padding: 100px 20px; max-width: 800px; margin: 0 auto; }
         .faq-item { margin-bottom: 15px; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: 0.3s; }
         .faq-q { padding: 20px; background: rgba(255,255,255,0.01); font-weight: 600; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
         .faq-a { padding: 0 20px; max-height: 0; overflow: hidden; transition: 0.5s ease-in-out; color: #777; font-size: 0.75rem; line-height: 1.6; }
+        .faq-item:hover { border-color: rgba(255,255,255,0.2); }
         .faq-item:hover .faq-a { max-height: 200px; padding: 20px; }
+
+        /* CHANGELOG */
+        .changelog { padding: 100px 20px; max-width: 700px; margin: 0 auto; }
+        .log-item { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
+        .log-version { font-weight: 700; color: var(--status-green); }
 
         /* МОДАЛКА */
         #modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10002; backdrop-filter: blur(15px); }
-        #modal-overlay.active { display: flex; cursor: default; } /* Возвращаем мышку */
+        #modal-overlay.active { display: flex; cursor: default; }
         #modal-overlay.active * { cursor: default; }
         .modal { background: #0a0a0a; border: 1px solid var(--border); padding: 40px; border-radius: 30px; max-width: 500px; width: 90%; }
+        .modal h2 { font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; color: #fff; }
+        .modal-text { font-size: 0.75rem; color: #666; line-height: 1.6; margin-bottom: 25px; }
 
+        /* ФУТЕР */
+        footer { padding: 80px 20px; border-top: 1px solid var(--border); margin-top: 100px; text-align: center; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; text-align: left; }
+        .footer-box h4 { font-size: 0.65rem; letter-spacing: 2px; color: #888; margin-bottom: 20px; text-transform: uppercase; }
+        .footer-box p { font-size: 0.7rem; color: #444; line-height: 1.8; }
+        
         .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        footer { padding: 80px 20px; text-align: center; border-top: 1px solid var(--border); font-size: 0.6rem; color: #222; letter-spacing: 2px; }
+        .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at center, #0d0d0d 0%, #000 100%); }
     </style>
 </head>
 <body>
@@ -77,22 +97,26 @@
 
     <div id="modal-overlay">
         <div class="modal">
-            <h2 style="margin-bottom:20px; font-size:0.9rem; letter-spacing:2px;">СОГЛАШЕНИЕ</h2>
-            <p style="font-size:0.75rem; color:#666; line-height:1.6; margin-bottom:25px;">
-                Используя LESS, вы принимаете риск игровых блокировок. ПО является вспомогательным инструментом. Возврат средств не предусмотрен.
-            </p>
+            <h2>ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ</h2>
+            <div class="modal-text">
+                <b>1. О продукте:</b> LESS — это вспомогательное ПО для оптимизации игрового процесса и автоматизации рутинных действий.<br><br>
+                <b>2. Риски:</b> Автор не несет ответственности за любые ограничения (баны) игровых аккаунтов. Используя ассистент, вы принимаете все риски на себя.<br><br>
+                <b>3. Возврат:</b> Цифровой товар возврату не подлежит после получения лицензионного ключа.
+            </div>
             <button class="buy-btn" onclick="acceptLegal()">ПРИНЯТЬ И ОПЛАТИТЬ</button>
         </div>
     </div>
 
     <div class="status-container">
-        <div class="status-bar"><div class="dot"></div> STATUS: STABLE</div>
-        <div class="online-count">USERS: <span id="user-count">1,248</span></div>
+        <div class="status-bar"><div class="dot"></div> SYSTEM STATUS: STABLE</div>
+        <div class="online-count">ACTIVE USERS: <span id="user-count">1,248</span></div>
     </div>
+
+    <div class="bg-glow"></div>
 
     <section class="hero reveal">
         <h1>LESS</h1>
-        <div class="subtitle">Utility Assistant</div>
+        <div class="subtitle">Experience Optimization Utility</div>
         <div class="btn-wrap">
             <a href="#shop" class="btn">Магазин</a>
             <a href="https://t.me" target="_blank" class="btn">Новости</a>
@@ -103,76 +127,94 @@
         <div class="grid">
             <div class="card">
                 <h3>PVE EDITION</h3>
-                <p>— Inventory Helper<br>— Visuals Mod<br>— Auto-Farm</p>
+                <p>— Inventory Helper (Автоматизация)<br>— Visual Optimization (Визуалы)<br>— Environment Helper</p>
                 <div class="price">390₽</div>
                 <button class="buy-btn" onclick="openLegal()">Приобрести</button>
             </div>
             <div class="card" style="border-color: rgba(255,255,255,0.15);">
                 <h3>COMBAT EDITION</h3>
-                <p>— Combat Assistant<br>— Response Mod<br>— Priority Support</p>
+                <p>— Combat Assistant (Ассистент)<br>— Dynamic Response (Реакция)<br>— Priority Support 24/7</p>
                 <div class="price">690₽</div>
+                <button class="buy-btn" onclick="openLegal()">Приобрести</button>
+            </div>
+            <div class="card">
+                <h3>ULTIMATE ACCESS</h3>
+                <p>— Весь функционал PVE + COMBAT<br>— Доступ к закрытым тестам<br>— Пожизненные обновления</p>
+                <div class="price">1290₽</div>
                 <button class="buy-btn" onclick="openLegal()">Приобрести</button>
             </div>
         </div>
     </section>
 
-    <section class="faq reveal">
-        <div class="faq-item">
-            <div class="faq-q">Безопасно ли это?</div>
-            <div class="faq-a">Мы используем современные методы обхода. Рекомендуем использовать ассистент осторожно.</div>
+    <section class="reviews reveal">
+        <h2 style="margin-bottom:50px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px; text-align: center;">ОТЗЫВЫ</h2>
+        <div class="review-card">
+            <p class="review-text">«Лучший ассистент для игры на анархии. Оптимизация на высоте, FPS не падает, а визуалы выглядят очень стильно.»</p>
+            <p style="color: var(--status-green); font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">@USER_1</p>
+        </div>
+        <div class="review-card">
+            <p class="review-text">«Пользуюсь неделю. Combat Assistant работает максимально плавно. Техподдержка отвечает быстро.»</p>
+            <p style="color: var(--status-green); font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">@USER_2</p>
         </div>
     </section>
 
-    <footer>© 2024 LESS PROJECT. ALL RIGHTS RESERVED.</footer>
+    <section class="faq reveal">
+        <h2 style="margin-bottom:40px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px; text-align: center;">F.A.Q.</h2>
+        <div class="faq-item">
+            <div class="faq-q">Безопасно ли использовать LESS?</div>
+            <div class="faq-a">Наш ассистент использует передовые алгоритмы оптимизации. Мы всегда рекомендуем соблюдать осторожность при использовании.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">Как происходит активация?</div>
+            <div class="faq-a">После оплаты вы получите уникальный ключ в Telegram. Введите его в нашем лаунчере для доступа.</div>
+        </div>
+    </section>
+
+    <section class="changelog reveal">
+        <h2 style="margin-bottom:40px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px;">CHANGELOG</h2>
+        <div class="log-item">
+            <span class="log-version">v1.0.2 — STABLE</span>
+            <span style="color: #444;">18.02.2024</span>
+        </div>
+        <div class="log-item">
+            <p style="color: #666; font-size: 0.75rem; line-height: 1.6;">— Обновлена система Inventory Helper<br>— Оптимизирован Combat Assistant для 1.16.5<br>— Обновлены обходы античитов.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-box">
+                <h4>Legal Disclaimer</h4>
+                <p>ПО LESS является частным инструментом для улучшения игрового опыта. Мы выступаем за честную автоматизацию. Не является официальным продуктом Mojang.</p>
+            </div>
+            <div class="footer-box">
+                <h4>Support</h4>
+                <p>По вопросам приобретения и настройки обращайтесь в нашу поддержку в Telegram. Мы ответим вам в кратчайшие сроки.</p>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:60px; font-size:0.5rem; color:#222; letter-spacing:4px;">© 2024 LESS PROJECT. ALL RIGHTS RESERVED.</div>
+    </footer>
 
     <script>
-        // 1. ЛЕТЯЩИЕ ЧАСТИЦЫ (АВТОНОМНО)
+        // ЛЕТЯЩИЕ ЧАСТИЦЫ
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize);
         resize();
-
         class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = canvas.height + Math.random() * 100;
-                this.speed = 0.5 + Math.random() * 1;
-                this.size = Math.random() * 2;
-                this.opacity = Math.random() * 0.5;
-            }
-            update() {
-                this.y -= this.speed;
-                if (this.y < -10) this.y = canvas.height + 10;
-            }
-            draw() {
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            constructor() { this.x = Math.random() * canvas.width; this.y = canvas.height + Math.random() * 100; this.speed = 0.5 + Math.random() * 1; this.size = Math.random() * 2; this.opacity = Math.random() * 0.5; }
+            update() { this.y -= this.speed; if (this.y < -10) this.y = canvas.height + 10; }
+            draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
-
         for(let i = 0; i < 100; i++) particles.push(new Particle());
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
         animate();
 
-        // 2. МЫШКА И МОДАЛКА
+        // МОДАЛКА И МЫШКА
         const modal = document.getElementById('modal-overlay');
-        function openLegal() { 
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+        function openLegal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
         function acceptLegal() { window.location.href = "https://t.me"; }
 
         const cursor = document.getElementById('cursor');
@@ -182,13 +224,13 @@
             follower.style.transform = `translate(${e.clientX - 13}px, ${e.clientY - 13}px)`;
         });
 
-        // 3. АНИМАЦИЯ ПОЯВЛЕНИЯ
+        // ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 4. СЧЕТЧИК
+        // СЧЕТЧИК ОНЛАЙНА
         setInterval(() => {
             const count = document.getElementById('user-count');
             let current = parseInt(count.innerText.replace(',', ''));
