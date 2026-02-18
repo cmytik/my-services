@@ -13,9 +13,10 @@
             --border: rgba(255, 255, 255, 0.08);
             --text-dim: #555;
             --status-green: #00ff66;
+            --tg-color: #229ED9;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; } /* Скрываем обычный курсор */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         html { scroll-behavior: smooth; }
 
         body {
@@ -23,7 +24,7 @@
             color: var(--accent);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            animation: fadeInPage 2s ease forwards;
+            animation: fadeInPage 1.5s ease forwards;
         }
 
         @keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
@@ -35,7 +36,7 @@
             z-index: 9999; transition: transform 0.1s ease;
         }
         #cursor-follower {
-            width: 20px; height: 20px; border: 1px solid rgba(255,255,255,0.3);
+            width: 24px; height: 24px; border: 1px solid rgba(255,255,255,0.3);
             border-radius: 50%; position: fixed; pointer-events: none;
             z-index: 9998; transition: transform 0.15s ease-out;
         }
@@ -50,7 +51,7 @@
         }
         .dot { width: 6px; height: 6px; background: var(--status-green); border-radius: 50%; box-shadow: 0 0 10px var(--status-green); }
 
-        /* ГЛИТЧ ЭФФЕКТ ДЛЯ LESS */
+        /* ГЛИТЧ ЭФФЕКТ */
         .glitch:hover {
             animation: glitch-anim 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
             text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9;
@@ -64,14 +65,15 @@
             100% { transform: translate(0); }
         }
 
-        /* ОСТАЛЬНОЙ ДИЗАЙН (ИЗ ПРЕДЫДУЩИХ ШАГОВ) */
+        /* ФОНОВЫЕ ОБЪЕКТЫ */
         .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at center, #111 0%, #000 100%); }
         .floating-objects { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .obj { position: absolute; bottom: -100px; background: rgba(255, 255, 255, 0.1); animation: flyUp linear infinite; }
-        .sword { width: 5px; height: 30px; }
-        .crystal { width: 15px; height: 15px; transform: rotate(45deg); border: 1px solid #fff; }
-        @keyframes flyUp { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 0.15; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
+        .obj { position: absolute; bottom: -100px; background: rgba(255, 255, 255, 0.05); animation: flyUp linear infinite; }
+        .sword { width: 2px; height: 40px; }
+        .crystal { width: 15px; height: 15px; transform: rotate(45deg); border: 1px solid rgba(255,255,255,0.1); }
+        @keyframes flyUp { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 0.2; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
 
+        /* ГЛАВНЫЙ ЭКРАН */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(3rem, 15vw, 8rem); margin-bottom: 10px; }
         .subtitle { color: var(--text-dim); text-transform: uppercase; letter-spacing: 10px; font-size: 0.7rem; margin-bottom: 40px; }
@@ -79,26 +81,36 @@
         .btn { text-decoration: none; color: #fff; padding: 15px 40px; border: 1px solid var(--border); border-radius: 12px; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; background: rgba(255,255,255,0.02); transition: 0.3s; }
         .btn:hover { background: #fff; color: #000; transform: translateY(-3px); }
 
-        /* ОТЗЫВЫ */
-        .reviews { padding: 100px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
-        .review-card { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 50px; }
-        .review-text { font-style: italic; color: #ccc; margin-bottom: 20px; line-height: 1.6; }
-        .review-author { font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* FAQ */
-        .faq { padding: 50px 20px 150px; max-width: 800px; margin: 0 auto; }
-        .faq-item { margin-bottom: 15px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-        .faq-q { padding: 20px; background: rgba(255,255,255,0.01); font-weight: 600; cursor: none !important; display: flex; justify-content: space-between; }
-        .faq-a { padding: 0 20px; max-height: 0; overflow: hidden; transition: 0.4s; color: #666; font-size: 0.9rem; line-height: 1.6; }
-        .faq-item:hover .faq-a { padding: 20px; max-height: 200px; }
-
         /* МАГАЗИН */
         .store { padding: 100px 20px; max-width: 1100px; margin: 0 auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 40px; transition: 0.4s; display: flex; flex-direction: column; }
-        .card:hover { border-color: #fff; }
+        .card:hover { border-color: #fff; transform: translateY(-5px); background: rgba(255,255,255,0.04); }
         .price { font-family: 'Unbounded', sans-serif; font-size: 2.2rem; margin: 20px 0; }
-        .buy { display: block; text-align: center; background: #fff; color: #000; padding: 15px; border-radius: 10px; text-decoration: none; font-weight: 700; text-transform: uppercase; }
+        .buy { display: block; text-align: center; background: #fff; color: #000; padding: 15px; border-radius: 10px; text-decoration: none; font-weight: 700; text-transform: uppercase; transition: 0.3s; }
+        .buy:hover { letter-spacing: 2px; }
+
+        /* ОТЗЫВЫ */
+        .reviews { padding: 100px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
+        .review-card { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 50px; }
+        .review-text { font-style: italic; color: #ccc; margin-bottom: 20px; line-height: 1.6; }
+        .review-author { font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; color: var(--status-green); }
+
+        /* FAQ */
+        .faq { padding: 50px 20px 100px; max-width: 800px; margin: 0 auto; }
+        .faq-item { margin-bottom: 15px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.3s; }
+        .faq-q { padding: 20px; background: rgba(255,255,255,0.01); font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        .faq-a { padding: 0 20px; max-height: 0; overflow: hidden; transition: 0.4s; color: #777; font-size: 0.9rem; line-height: 1.6; }
+        .faq-item:hover { border-color: rgba(255,255,255,0.2); }
+        .faq-item:hover .faq-a { padding: 20px; max-height: 200px; }
+
+        /* ФУТЕР */
+        footer { padding: 80px 0; display: flex; flex-direction: column; align-items: center; gap: 20px; border-top: 1px solid var(--border); background: linear-gradient(to top, rgba(34, 158, 217, 0.05), transparent); }
+        .tg-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 600; letter-spacing: 2px; font-size: 0.8rem; transition: 0.4s; padding: 12px 25px; border-radius: 50px; border: 1px solid var(--border); }
+        .tg-icon { width: 20px; height: 20px; fill: #fff; transition: 0.4s; }
+        .tg-link:hover { border-color: var(--tg-color); box-shadow: 0 0 30px rgba(34, 158, 217, 0.3); color: var(--tg-color); }
+        .tg-link:hover .tg-icon { fill: var(--tg-color); transform: scale(1.2) rotate(-15deg); }
+        .copyright { font-size: 0.6rem; color: #333; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -113,22 +125,22 @@
 
     <div class="bg-glow"></div>
     <div class="floating-objects">
-        <div class="obj sword" style="left: 10%; animation-duration: 15s;"></div>
+        <div class="obj sword" style="left: 10%; animation-duration: 15s; animation-delay: 2s;"></div>
         <div class="obj crystal" style="left: 30%; animation-duration: 12s;"></div>
-        <div class="obj sword" style="left: 60%; animation-duration: 18s;"></div>
-        <div class="obj crystal" style="left: 80%; animation-duration: 14s;"></div>
+        <div class="obj sword" style="left: 60%; animation-duration: 18s; animation-delay: 5s;"></div>
+        <div class="obj crystal" style="left: 85%; animation-duration: 14s; animation-delay: 1s;"></div>
     </div>
 
-    <div class="hero">
+    <section class="hero">
         <h1 class="glitch">LESS</h1>
         <div class="subtitle">Official Client Solution</div>
         <div class="btn-wrap">
             <a href="#shop" class="btn">Магазин</a>
-            <a href="https://t.me" class="btn">Новости</a>
+            <a href="https://t.me" target="_blank" class="btn">Новости</a>
         </div>
-    </div>
+    </section>
 
-    <div id="shop" class="store">
+    <section id="shop" class="store">
         <div class="grid">
             <div class="card">
                 <h3>PVE EDITION</h3>
@@ -136,7 +148,7 @@
                     — Auto-Farm (Умная добыча)<br>— Mob Aura 360°<br>— X-Ray (Настройка фильтров)
                 </p>
                 <div class="price">390₽</div>
-                <a href="https://t.me" class="buy">Приобрести</a>
+                <a href="https://t.me" target="_blank" class="buy">Приобрести</a>
             </div>
             <div class="card">
                 <h3>PVP EDITION</h3>
@@ -144,7 +156,7 @@
                     — KillAura (Bypass Anticheats)<br>— Velocity & Reach<br>— Auto-Totem & Auto-Gap
                 </p>
                 <div class="price">690₽</div>
-                <a href="https://t.me" class="buy">Приобрести</a>
+                <a href="https://t.me" target="_blank" class="buy">Приобрести</a>
             </div>
             <div class="card">
                 <h3>ULTIMATE</h3>
@@ -152,48 +164,63 @@
                     — Все функции PVE + PVP<br>— Private Beta (Новые обходы)<br>— Priority Support 24/7
                 </p>
                 <div class="price">1290₽</div>
-                <a href="https://t.me" class="buy">Приобрести</a>
+                <a href="https://t.me" target="_blank" class="buy">Приобрести</a>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="reviews">
-        <h2 style="font-family: 'Unbounded'; margin-bottom: 40px; font-size: 1.5rem;">ОТЗЫВЫ ИГРОКОВ</h2>
+    <section class="reviews">
+        <h2 style="font-family: 'Unbounded', sans-serif; margin-bottom: 40px; font-size: 1.5rem;">ОТЗЫВЫ ПОЛЬЗОВАТЕЛЕЙ</h2>
         <div class="review-card">
-            <p class="review-text">"Лучший чит для анархии. Обходы просто пушка, за месяц ни одного бана. Киллаура работает мягко, но убивает всё живое."</p>
-            <div class="review-author">@DREAM_SLAYER</div>
+            <p class="review-text">«Лучший софт для игры на анархии. Обходы работают стабильно, а визуальная часть просто пушка. Техподдержка отвечает за минуты.»</p>
+            <p class="review-author">@User_Infinity</p>
         </div>
-    </div>
+    </section>
 
-    <div class="faq">
-        <h2 style="font-family: 'Unbounded'; margin-bottom: 40px; font-size: 1.2rem; text-align: center;">FAQ / ВОПРОСЫ</h2>
+    <section class="faq">
         <div class="faq-item">
-            <div class="faq-q">КАК УСТАНОВИТЬ ЧИТ? <span>+</span></div>
-            <div class="faq-a">После покупки вы получите архив с инструкцией. Просто перенесите файлы в папку versions и запустите лаунчер.</div>
+            <div class="faq-q">КАК ПОЛУЧИТЬ КЛЮЧ ПОСЛЕ ОПЛАТЫ? <span>+</span></div>
+            <div class="faq-a">После подтверждения транзакции бот в Telegram автоматически выдаст вам лицензионный ключ и инструкцию по установке в течение 5 минут.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-q">ЕСТЬ ЛИ ПРИВЯЗКА К ПК? <span>+</span></div>
-            <div class="faq-a">Да, софт привязывается к вашему HWID. Перенос лицензии возможен через тикет в поддержке.</div>
+            <div class="faq-q">ЕСТЬ ЛИ ПОДДЕРЖКА FORGE / FABRIC? <span>+</span></div>
+            <div class="faq-a">Наш клиент работает на собственной оптимизированной базе для максимального FPS. Поддержка сторонних модов ограничена для безопасности.</div>
         </div>
-    </div>
+    </section>
+
+    <footer>
+        <a href="https://t.me" target="_blank" class="tg-link">
+            <svg class="tg-icon" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.45-.42-1.39-.89.03-.25.38-.51 1.07-.77 4.18-1.82 6.97-3.02 8.37-3.6 3.98-1.66 4.81-1.94 5.35-1.95.12 0 .38.03.55.17.14.11.18.26.2.37.02.08.02.23 0 .36z"/>
+            </svg>
+            JOIN OUR COMMUNITY
+        </a>
+        <div class="copyright">© 2024 LESS CLIENT. ALL RIGHTS RESERVED.</div>
+    </footer>
 
     <script>
         const cursor = document.getElementById('cursor');
         const follower = document.getElementById('cursor-follower');
 
         document.addEventListener('mousemove', (e) => {
-            cursor.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 4}px)`;
-            follower.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            follower.style.left = (e.clientX - 12) + 'px';
+            follower.style.top = (e.clientY - 12) + 'px';
         });
 
-        // Добавляем эффект клика для курсора
-        document.addEventListener('mousedown', () => {
-            cursor.style.transform += ' scale(1.5)';
-            follower.style.transform += ' scale(0.5)';
-        });
-        document.addEventListener('mouseup', () => {
-            cursor.style.transform = cursor.style.transform.replace(' scale(1.5)', '');
-            follower.style.transform = follower.style.transform.replace(' scale(0.5)', '');
+        // Эффект при наведении на интерактивные элементы
+        const interactives = document.querySelectorAll('.btn, .buy, .faq-item, .tg-link');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.transform = 'scale(2)';
+                follower.style.background = 'rgba(255,255,255,0.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.transform = 'scale(1)';
+                follower.style.background = 'transparent';
+            });
         });
     </script>
 </body>
