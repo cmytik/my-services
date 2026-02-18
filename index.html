@@ -10,7 +10,7 @@
             --bg: #050505;
             --accent: #ffffff;
             --card-bg: rgba(255, 255, 255, 0.02);
-            --border: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,10 +22,9 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             animation: fadeInPage 2s ease forwards;
-            opacity: 0;
         }
 
-        @keyframes fadeInPage { to { opacity: 1; } }
+        @keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
 
         /* Фон */
         .bg-glow {
@@ -33,35 +32,41 @@
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2;
             background: radial-gradient(circle at center, #111 0%, #000 100%);
-            animation: pulseBg 10s infinite alternate;
-        }
-        @keyframes pulseBg {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
         }
 
-        /* Контейнер для предметов */
-        #float-container {
+        /* ЧИСТЫЙ CSS ДЛЯ ЛЕТАЮЩИХ ПРЕДМЕТОВ (БЕЗ СКРИПТОВ) */
+        .floating-objects {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
             z-index: -1;
+            pointer-events: none;
         }
 
-        /* Стиль для встроенных SVG иконок */
-        .mc-icon {
+        .obj {
             position: absolute;
-            fill: rgba(255, 255, 255, 0.15); /* Цвет иконок */
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
-            animation: fly linear infinite;
+            bottom: -100px;
+            background: rgba(255, 255, 255, 0.1);
+            animation: flyUp linear infinite;
         }
 
-        @keyframes fly {
-            from { transform: translateY(110vh) rotate(0deg); }
-            to { transform: translateY(-20vh) rotate(360deg); }
+        /* Рисуем "Меч" из квадратов */
+        .sword { width: 10px; height: 40px; }
+        .sword::after { content: ''; position: absolute; width: 30px; height: 10px; top: 25px; left: -10px; background: inherit; }
+
+        /* Рисуем "Кристалл" */
+        .crystal { width: 25px; height: 25px; transform: rotate(45deg); border: 2px solid rgba(255,255,255,0.2); }
+
+        /* Рисуем "Яблоко" */
+        .apple { width: 25px; height: 25px; border-radius: 50%; }
+
+        @keyframes flyUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.2; }
+            90% { opacity: 0.2; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Главная секция */
+        /* Главный экран */
         .hero {
             height: 100vh;
             display: flex;
@@ -69,205 +74,105 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 20px;
         }
 
         h1 {
             font-family: 'Unbounded', sans-serif;
-            font-size: clamp(3.5rem, 15vw, 10rem);
-            letter-spacing: -4px;
+            font-size: clamp(3rem, 15vw, 8rem);
+            letter-spacing: -2px;
             margin-bottom: 10px;
-            animation: slideUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
 
         .subtitle {
             color: #444;
             text-transform: uppercase;
             letter-spacing: 10px;
-            font-size: clamp(0.6rem, 2vw, 0.8rem);
-            margin-bottom: 50px;
+            font-size: 0.8rem;
+            margin-bottom: 40px;
         }
 
-        /* Кнопки */
-        .btn-wrap { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .btn-group { display: flex; gap: 20px; }
 
         .btn {
             text-decoration: none;
             color: #fff;
-            padding: 18px 50px;
+            padding: 18px 40px;
             border: 1px solid var(--border);
-            border-radius: 18px;
+            border-radius: 12px;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px);
-            transition: all 0.4s ease;
-        }
-
-        .btn:hover {
-            background: #fff;
-            color: #000;
-            transform: translateY(-5px);
-        }
-
-        /* Магазин */
-        .store {
-            padding: 100px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 50px 40px;
-            transition: 0.5s;
-        }
-
-        .card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-10px);
-        }
-
-        .card h3 { font-family: 'Unbounded', sans-serif; font-size: 1.4rem; margin-bottom: 25px; }
-
-        .features { list-style: none; margin-bottom: 40px; }
-        .features li {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-        }
-        .features li::before { content: "—"; margin-right: 12px; }
-
-        .price {
-            font-family: 'Unbounded', sans-serif;
-            font-size: 2.8rem;
-            margin-bottom: 30px;
-        }
-
-        .buy-now {
-            display: block;
-            text-align: center;
-            background: #fff;
-            color: #000;
-            padding: 20px;
-            border-radius: 16px;
-            text-decoration: none;
-            font-weight: 700;
-            text-transform: uppercase;
+            backdrop-filter: blur(10px);
             transition: 0.3s;
         }
 
-        .buy-now:hover { opacity: 0.8; }
+        .btn:hover { background: #fff; color: #000; transform: translateY(-5px); }
 
+        /* Секция магазина */
+        .shop { padding: 100px 20px; max-width: 1100px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 45px;
+            transition: 0.4s;
+        }
+        .card:hover { border-color: #fff; transform: translateY(-10px); }
+        .card h3 { font-family: 'Unbounded', sans-serif; margin-bottom: 20px; }
+        .price { font-family: 'Unbounded', sans-serif; font-size: 2.5rem; margin: 25px 0; }
+        .buy {
+            display: block; text-align: center; background: #fff; color: #000;
+            padding: 18px; border-radius: 12px; text-decoration: none; font-weight: 700;
+        }
     </style>
 </head>
 <body>
 
     <div class="bg-glow"></div>
-    <div id="float-container"></div>
+
+    <!-- Объекты на чистом CSS -->
+    <div class="floating-objects">
+        <div class="obj sword" style="left: 10%; animation-duration: 15s; animation-delay: 0s;"></div>
+        <div class="obj crystal" style="left: 25%; animation-duration: 12s; animation-delay: 2s;"></div>
+        <div class="obj apple" style="left: 45%; animation-duration: 18s; animation-delay: 5s;"></div>
+        <div class="obj sword" style="left: 70%; animation-duration: 20s; animation-delay: 1s;"></div>
+        <div class="obj crystal" style="left: 85%; animation-duration: 14s; animation-delay: 7s;"></div>
+        <div class="obj apple" style="left: 60%; animation-duration: 16s; animation-delay: 3s;"></div>
+    </div>
 
     <div class="hero">
         <h1>LESS</h1>
         <div class="subtitle">Official Client Solution</div>
-        <div class="btn-wrap">
+        <div class="btn-group">
             <a href="#shop" class="btn">Магазин</a>
             <a href="https://t.me" class="btn">Новости</a>
         </div>
     </div>
 
-    <div id="shop" class="store">
+    <div id="shop" class="shop">
         <div class="grid">
             <div class="card">
                 <h3>PVE EDITION</h3>
-                <ul class="features">
-                    <li>Auto-Farm (Оптимизированный)</li>
-                    <li>Mob Aura (360 градусов)</li>
-                    <li>X-Ray & Tracers</li>
-                    <li>FullBright Mode</li>
-                </ul>
+                <p style="color: #666; font-size: 0.9rem; line-height: 1.6;">// Auto-Farm<br>// Mob Aura<br>// X-Ray Vision</p>
                 <div class="price">390₽</div>
-                <a href="https://t.me" class="buy-now">Купить</a>
+                <a href="https://t.me" class="buy">КУПИТЬ</a>
             </div>
-
             <div class="card">
                 <h3>PVP EDITION</h3>
-                <ul class="features">
-                    <li>KillAura (Multi-Bypass)</li>
-                    <li>Velocity & Reach (Custom)</li>
-                    <li>Auto-Totem & CrystalAura</li>
-                    <li>TargetHUD & ESP</li>
-                </ul>
+                <p style="color: #666; font-size: 0.9rem; line-height: 1.6;">// KillAura Bypass<br>// Velocity & Reach<br>// Auto-Totem</p>
                 <div class="price">690₽</div>
-                <a href="https://t.me" class="buy-now">Купить</a>
+                <a href="https://t.me" class="buy">КУПИТЬ</a>
             </div>
-
             <div class="card">
                 <h3>ULTIMATE</h3>
-                <ul class="features">
-                    <li>Все функции PVE + PVP</li>
-                    <li>Private Beta билды</li>
-                    <li>Обход проверок модерации</li>
-                    <li>Приоритетный саппорт</li>
-                </ul>
+                <p style="color: #666; font-size: 0.9rem; line-height: 1.6;">// All Features<br>// Private Beta Access<br>// Priority Support</p>
                 <div class="price">1290₽</div>
-                <a href="https://t.me" class="buy-now">Купить</a>
+                <a href="https://t.me" class="buy">КУПИТЬ</a>
             </div>
         </div>
     </div>
-
-    <script>
-        const container = document.getElementById('float-container');
-        
-        // Встроенные SVG-коды иконок (Меч, Кристалл, Зелье, Череп)
-        const svgPaths = [
-            '<path d="M437.019 74.98c-48.944-48.944-128.295-48.944-177.239 0l-224.8 224.8c-4.686 4.686-4.686 12.284 0 16.971l33.941 33.941c4.686 4.686 12.284 4.686 16.971 0l33.941-33.941l152.735 152.735l-33.941 33.941c-4.686 4.686-4.686 12.284 0 16.971l33.941 33.941c4.686 4.686 12.284 4.686 16.971 0l224.8-224.8c48.944-48.944 48.944-128.295 0-177.239z""")/>>', // Меч
-            '<path d="M256 0l128 128l-128 384l-128-384z""")/>>', // Кристалл
-            '<path d="M384 320h-64v-192l64-64v-64h-256v64l64 64v192h-64l-128 192v64h512v-64z""")/>>', // Колба
-            '<path d="M256 0c-114.875 0-208 93.125-208 208v16c0 102.344 64.688 189.656 154.594 222.156l-26.594 65.844h160l-26.594-65.844c89.906-32.5 154.594-119.813 154.594-222.156v-16c0-114.875-93.125-208-208-208z""")/>>' // Череп
-        ];
-
-        function spawnItem() {
-            const svg = document.createElementNS("http://www.w3.org", "svg");
-            const randomPath = svgPaths[Math.floor(Math.random() * svgPaths.length)];
-            
-            svg.setAttribute("viewBox", "0 0 512 512");
-            svg.setAttribute("class", "mc-icon");
-            svg.innerHTML = randomPath;
-            
-            const startX = Math.random() * 100;
-            const duration = 12 + Math.random() * 10;
-            const size = 25 + Math.random() * 25;
-
-            svg.style.left = startX + 'vw';
-            svg.style.width = size + 'px';
-            svg.style.height = size + 'px';
-            svg.style.animationDuration = duration + 's';
-            
-            container.appendChild(svg);
-            setTimeout(() => svg.remove(), duration * 1000);
-        }
-
-        // Запуск анимации
-        setInterval(spawnItem, 1500);
-        for(let i=0; i<10; i++) spawnItem();
-    </script>
 
 </body>
 </html>
