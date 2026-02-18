@@ -43,12 +43,27 @@
         .price { font-family: 'Unbounded', sans-serif; font-size: 2.5rem; margin-bottom: 25px; }
         .buy-btn { display: block; width: 100%; text-align: center; background: #fff; color: #000; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: 700; text-transform: uppercase; transition: 0.3s; border: none; font-size: 0.7rem; }
 
+        /* ОТЗЫВЫ */
+        .reviews { padding: 100px 20px; max-width: 800px; margin: 0 auto; }
+        .review-card { background: var(--card-bg); padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 25px; }
+        .review-text { font-style: italic; color: #ccc; margin-bottom: 15px; font-size: 0.85rem; line-height: 1.6; }
+
+        /* FAQ */
+        .faq { padding: 100px 20px; max-width: 800px; margin: 0 auto; }
+        .faq-item { margin-bottom: 15px; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; cursor: pointer; transition: 0.3s; }
+        .faq-q { padding: 20px; background: rgba(255,255,255,0.01); font-weight: 600; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
+        .faq-a { padding: 0 20px; max-height: 0; overflow: hidden; transition: 0.4s ease-out; color: #777; font-size: 0.75rem; line-height: 1.6; }
+
+        /* CHANGELOG */
+        .changelog { padding: 100px 20px; max-width: 700px; margin: 0 auto; }
+        .log-item { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
+        .log-version { font-weight: 700; color: var(--status-green); }
+
         /* МОДАЛЬНОЕ ОКНО */
         #modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(15px); }
         .modal { background: #0a0a0a; border: 1px solid var(--border); padding: 40px; border-radius: 30px; max-width: 500px; width: 90%; }
         .modal h2 { font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; color: #fff; }
         .modal-text { font-size: 0.75rem; color: #666; line-height: 1.6; margin-bottom: 25px; }
-        .modal-text b { color: #aaa; }
 
         /* ФУТЕР */
         footer { padding: 80px 20px; border-top: 1px solid var(--border); margin-top: 100px; }
@@ -66,14 +81,13 @@
     <div id="cursor"></div>
     <div id="cursor-follower"></div>
 
-    <!-- Модальное окно (Лицензионное соглашение) -->
     <div id="modal-overlay">
         <div class="modal">
             <h2>Пользовательское соглашение</h2>
             <div class="modal-text">
-                <b>1. О продукте:</b> LESS — это вспомогательное ПО для оптимизации пользовательского взаимодействия с игровым интерфейсом.<br><br>
-                <b>2. Риски:</b> Разработчик не несет ответственности за любые ограничения игровых аккаунтов. Используя ассистент, вы принимаете все риски на себя.<br><br>
-                <b>3. Возврат:</b> В связи с цифровой природой продукта, возврат средств после активации доступа не предусмотрен.
+                <b>1. О продукте:</b> LESS — это вспомогательное ПО для оптимизации игрового процесса и автоматизации рутинных действий.<br><br>
+                <b>2. Риски:</b> Автор не несет ответственности за любые ограничения (баны) игровых аккаунтов. Используя ассистент, вы принимаете все риски на себя.<br><br>
+                <b>3. Возврат:</b> Цифровой товар возврату не подлежит после получения лицензионного ключа.
             </div>
             <button class="buy-btn" onclick="acceptLegal()">Принимаю условия и покупаю</button>
         </div>
@@ -88,46 +102,64 @@
 
     <section class="hero reveal">
         <h1>LESS</h1>
-        <div class="subtitle">Next-Gen Gameplay Assistant</div>
+        <div class="subtitle">Experience Optimization Utility</div>
     </section>
 
     <section id="shop" class="store reveal">
         <div class="grid">
-            <!-- PVE Пакет -->
             <div class="card">
-                <h3>PVE ASSISTANT</h3>
-                <p>
-                    — <b>Inventory Helper</b> (Автоматизация ресурсов)<br>
-                    — <b>Visual Optimization</b> (Улучшенная видимость)<br>
-                    — <b>Advanced Movement</b> (Плавное перемещение)
-                </p>
+                <h3>ESSENTIAL EDITION</h3>
+                <p>— <b>Inventory Helper</b> (Автоматизация)<br>— <b>Visual Optimization</b> (Визуалы)<br>— <b>30 Days License</b></p>
                 <div class="price">390₽</div>
                 <button class="buy-btn" onclick="openLegal()">Приобрести</button>
             </div>
-
-            <!-- PVP Пакет -->
             <div class="card" style="border-color: rgba(255,255,255,0.15);">
-                <h3>COMBAT EDITION</h3>
-                <p>
-                    — <b>Combat Assistant</b> (Помощь в наведении)<br>
-                    — <b>Dynamic Response</b> (Улучшенная реакция)<br>
-                    — <b>Priority Support</b> (Тех. поддержка 24/7)
-                </p>
+                <h3>COMBAT ASSISTANT</h3>
+                <p>— <b>Combat Assistant</b> (Помощник)<br>— <b>Dynamic Response</b> (Реакция)<br>— <b>Priority Support</b></p>
                 <div class="price">690₽</div>
                 <button class="buy-btn" onclick="openLegal()">Приобрести</button>
             </div>
-
-            <!-- Полный доступ -->
             <div class="card">
                 <h3>ULTIMATE ACCESS</h3>
-                <p>
-                    — Весь функционал PVE + COMBAT<br>
-                    — Доступ к закрытому тестированию модулей<br>
-                    — Пожизненные обновления ассистента
-                </p>
+                <p>— Весь функционал PVE + COMBAT<br>— Доступ к закрытым тестам<br>— Пожизненные обновления</p>
                 <div class="price">1290₽</div>
                 <button class="buy-btn" onclick="openLegal()">Приобрести</button>
             </div>
+        </div>
+    </section>
+
+    <section class="reviews reveal">
+        <h2 style="margin-bottom:50px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px; text-align: center;">ОТЗЫВЫ</h2>
+        <div class="review-card">
+            <p class="review-text">«Лучший ассистент для игры. Оптимизация на высоте, FPS не падает, а визуалы выглядят очень стильно.»</p>
+            <p style="color: var(--status-green); font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">@USER_1</p>
+        </div>
+        <div class="review-card">
+            <p class="review-text">«Пользуюсь неделю. Combat Assistant работает плавно. Техподдержка отвечает быстро.»</p>
+            <p style="color: var(--status-green); font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">@USER_2</p>
+        </div>
+    </section>
+
+    <section class="faq reveal">
+        <h2 style="margin-bottom:40px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px; text-align: center;">F.A.Q.</h2>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">Безопасно ли использовать LESS? <span>+</span></div>
+            <div class="faq-a">Наш ассистент использует передовые алгоритмы оптимизации. Однако мы всегда рекомендуем соблюдать осторожность.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">Как происходит активация? <span>+</span></div>
+            <div class="faq-a">После оплаты вы получаете ключ. Введите его в лаунчере для получения доступа.</div>
+        </div>
+    </section>
+
+    <section class="changelog reveal">
+        <h2 style="margin-bottom:40px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px;">CHANGELOG</h2>
+        <div class="log-item">
+            <span class="log-version">v1.0.2 — STABLE</span>
+            <span style="color: #444;">18.02.2024</span>
+        </div>
+        <div class="log-item">
+            <p style="color: #666; font-size: 0.75rem; line-height: 1.6;">— Добавлена система Inventory Helper<br>— Оптимизирован Combat Assistant для 1.16.5<br>— Обновлены обходы античитов.</p>
         </div>
     </section>
 
@@ -135,28 +167,30 @@
         <div class="footer-grid">
             <div class="footer-box">
                 <h4>Legal Disclaimer</h4>
-                <p>Программное обеспечение LESS является частным инструментом для улучшения игрового опыта. Мы не поддерживаем действия, нарушающие целостность серверной инфраструктуры или препятствующие нормальной работе ЭВМ. Продукт создан для помощи пользователю в рамках игрового процесса.</p>
+                <p>ПО LESS является частным инструментом для улучшения игрового опыта. Мы выступаем за честную автоматизацию. Не является официальным продуктом Mojang.</p>
             </div>
             <div class="footer-box">
-                <h4>Notice</h4>
-                <p>Все права на игру принадлежат их законным правообладателям. LESS является независимым аддоном и не аффилирован с разработчиками игровых проектов. По вопросам сотрудничества пишите в официальные каналы связи.</p>
+                <h4>Support</h4>
+                <p>По вопросам приобретения и настройки обращайтесь в нашу поддержку в Telegram. Мы ответим вам в кратчайшие сроки.</p>
             </div>
         </div>
-        <div style="text-align:center; margin-top:60px; font-size:0.5rem; color:#222; letter-spacing:4px; text-transform: uppercase;">
-            © 2024 LESS UTILITY PROJECT. ALL RIGHTS RESERVED.
-        </div>
+        <div style="text-align:center; margin-top:60px; font-size:0.5rem; color:#222; letter-spacing:4px;">© 2024 LESS PROJECT. ALL RIGHTS RESERVED.</div>
     </footer>
 
     <script>
         function openLegal() { document.getElementById('modal-overlay').style.display = 'flex'; }
         function acceptLegal() { window.location.href = "https://t.me"; }
+        function toggleFaq(el) {
+            const a = el.querySelector('.faq-a');
+            const s = el.querySelector('.faq-q span');
+            if (a.style.maxHeight) { a.style.maxHeight = null; a.style.padding = "0 20px"; s.innerText = "+"; }
+            else { a.style.maxHeight = a.scrollHeight + "px"; a.style.padding = "20px"; s.innerText = "-"; }
+        }
 
-        // Курсор и анимации
         const cursor = document.getElementById('cursor');
         const follower = document.getElementById('cursor-follower');
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
             follower.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
         });
 
