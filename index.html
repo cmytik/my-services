@@ -10,7 +10,8 @@
             --bg: #050505;
             --accent: #ffffff;
             --card-bg: rgba(255, 255, 255, 0.02);
-            --border: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-dim: #777;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,19 +23,25 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             animation: fadeInPage 2s ease forwards;
+            opacity: 0;
         }
 
-        @keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInPage { to { opacity: 1; } }
 
-        /* Фон */
+        /* Дышащий фон */
         .bg-glow {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2;
             background: radial-gradient(circle at center, #111 0%, #000 100%);
+            animation: pulseBg 12s infinite alternate;
+        }
+        @keyframes pulseBg {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
 
-        /* ЧИСТЫЙ CSS ДЛЯ ЛЕТАЮЩИХ ПРЕДМЕТОВ (БЕЗ СКРИПТОВ) */
+        /* КОНТЕЙНЕР ДЛЯ ЛЕТАЮЩИХ ПРЕДМЕТОВ (БЕЗ КАРТИНОК) */
         .floating-objects {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -45,28 +52,29 @@
         .obj {
             position: absolute;
             bottom: -100px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             animation: flyUp linear infinite;
         }
 
-        /* Рисуем "Меч" из квадратов */
-        .sword { width: 10px; height: 40px; }
-        .sword::after { content: ''; position: absolute; width: 30px; height: 10px; top: 25px; left: -10px; background: inherit; }
+        /* Стилизация меча */
+        .sword { width: 6px; height: 35px; }
+        .sword::after { content: ''; position: absolute; width: 22px; height: 6px; top: 24px; left: -8px; background: inherit; }
+        
+        /* Стилизация кристалла */
+        .crystal { width: 22px; height: 22px; transform: rotate(45deg); border: 2px solid rgba(255,255,255,0.3); background: none; }
 
-        /* Рисуем "Кристалл" */
-        .crystal { width: 25px; height: 25px; transform: rotate(45deg); border: 2px solid rgba(255,255,255,0.2); }
-
-        /* Рисуем "Яблоко" */
-        .apple { width: 25px; height: 25px; border-radius: 50%; }
+        /* Стилизация яблока */
+        .apple { width: 20px; height: 20px; border-radius: 50% 50% 45% 45%; }
+        .apple::before { content: ''; position: absolute; width: 4px; height: 8px; top: -6px; left: 8px; background: rgba(255,255,255,0.1); }
 
         @keyframes flyUp {
             0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.2; }
-            90% { opacity: 0.2; }
+            15% { opacity: 0.2; }
+            85% { opacity: 0.2; }
             100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Главный экран */
+        /* Главная секция */
         .hero {
             height: 100vh;
             display: flex;
@@ -74,102 +82,177 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            padding: 20px;
         }
 
         h1 {
             font-family: 'Unbounded', sans-serif;
-            font-size: clamp(3rem, 15vw, 8rem);
-            letter-spacing: -2px;
+            font-size: clamp(3.5rem, 15vw, 10rem);
+            letter-spacing: -4px;
             margin-bottom: 10px;
+            animation: slideUp 1.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .subtitle {
-            color: #444;
+            color: var(--text-dim);
             text-transform: uppercase;
             letter-spacing: 10px;
-            font-size: 0.8rem;
-            margin-bottom: 40px;
+            font-size: clamp(0.6rem, 2vw, 0.8rem);
+            margin-bottom: 50px;
         }
 
-        .btn-group { display: flex; gap: 20px; }
+        /* Кнопки */
+        .btn-wrap { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
 
         .btn {
             text-decoration: none;
             color: #fff;
-            padding: 18px 40px;
+            padding: 18px 50px;
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 16px;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            background: rgba(255, 255, 255, 0.03);
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(10px);
-            transition: 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .btn:hover { background: #fff; color: #000; transform: translateY(-5px); }
+        .btn:hover {
+            background: #fff;
+            color: #000;
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.1);
+        }
 
         /* Секция магазина */
-        .shop { padding: 100px 20px; max-width: 1100px; margin: 0 auto; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .store {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 24px;
-            padding: 45px;
-            transition: 0.4s;
+            padding: 50px 40px;
+            transition: 0.5s;
+            display: flex;
+            flex-direction: column;
         }
-        .card:hover { border-color: #fff; transform: translateY(-10px); }
-        .card h3 { font-family: 'Unbounded', sans-serif; margin-bottom: 20px; }
-        .price { font-family: 'Unbounded', sans-serif; font-size: 2.5rem; margin: 25px 0; }
-        .buy {
-            display: block; text-align: center; background: #fff; color: #000;
-            padding: 18px; border-radius: 12px; text-decoration: none; font-weight: 700;
+
+        .card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-10px);
         }
+
+        .card h3 { font-family: 'Unbounded', sans-serif; font-size: 1.4rem; margin-bottom: 25px; }
+
+        .features { list-style: none; margin-bottom: 40px; flex-grow: 1; }
+        .features li {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .features li::before { content: "•"; color: #fff; margin-right: 10px; font-weight: bold; }
+
+        .price {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            letter-spacing: -2px;
+        }
+
+        .buy-now {
+            display: block;
+            text-align: center;
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .buy-now:hover { transform: scale(0.97); opacity: 0.9; }
+
     </style>
 </head>
 <body>
 
     <div class="bg-glow"></div>
 
-    <!-- Объекты на чистом CSS -->
     <div class="floating-objects">
-        <div class="obj sword" style="left: 10%; animation-duration: 15s; animation-delay: 0s;"></div>
-        <div class="obj crystal" style="left: 25%; animation-duration: 12s; animation-delay: 2s;"></div>
-        <div class="obj apple" style="left: 45%; animation-duration: 18s; animation-delay: 5s;"></div>
-        <div class="obj sword" style="left: 70%; animation-duration: 20s; animation-delay: 1s;"></div>
-        <div class="obj crystal" style="left: 85%; animation-duration: 14s; animation-delay: 7s;"></div>
-        <div class="obj apple" style="left: 60%; animation-duration: 16s; animation-delay: 3s;"></div>
+        <div class="obj sword" style="left: 10%; animation-duration: 14s; animation-delay: 0s;"></div>
+        <div class="obj crystal" style="left: 20%; animation-duration: 18s; animation-delay: 4s;"></div>
+        <div class="obj apple" style="left: 35%; animation-duration: 12s; animation-delay: 2s;"></div>
+        <div class="obj crystal" style="left: 55%; animation-duration: 20s; animation-delay: 6s;"></div>
+        <div class="obj sword" style="left: 75%; animation-duration: 15s; animation-delay: 1s;"></div>
+        <div class="obj apple" style="left: 90%; animation-duration: 17s; animation-delay: 8s;"></div>
     </div>
 
     <div class="hero">
         <h1>LESS</h1>
         <div class="subtitle">Official Client Solution</div>
-        <div class="btn-group">
+        <div class="btn-wrap">
             <a href="#shop" class="btn">Магазин</a>
             <a href="https://t.me" class="btn">Новости</a>
         </div>
     </div>
 
-    <div id="shop" class="shop">
+    <div id="shop" class="store">
         <div class="grid">
             <div class="card">
                 <h3>PVE EDITION</h3>
-                <p style="color: #666; font-size: 0.9rem; line-height: 1.6;">// Auto-Farm<br>// Mob Aura<br>// X-Ray Vision</p>
+                <ul class="features">
+                    <li>Auto-Farm (Умная добыча)</li>
+                    <li>Mob Aura 360°</li>
+                    <li>X-Ray (Настройка фильтров)</li>
+                    <li>FullBright (Яркий мир)</li>
+                </ul>
                 <div class="price">390₽</div>
-                <a href="https://t.me" class="buy">КУПИТЬ</a>
+                <a href="https://t.me" class="buy-now">Приобрести</a>
             </div>
+
             <div class="card">
                 <h3>PVP EDITION</h3>
-                <p style="color: #666; font-size: 0.9rem; line-height: 1.6;">// KillAura Bypass<br>// Velocity & Reach<br>// Auto-Totem</p>
+                <ul class="features">
+                    <li>KillAura (Bypass Anticheats)</li>
+                    <li>Velocity & Reach (Настройка)</li>
+                    <li>Auto-Totem & Auto-Gap</li>
+                    <li>NoSlowdown & TargetHUD</li>
+                </ul>
                 <div class="price">690₽</div>
-                <a href="https://t.me" class="buy">КУПИТЬ</a>
+                <a href="https://t.me" class="buy-now">Приобрести</a>
             </div>
+
             <div class="card">
                 <h3>ULTIMATE</h3>
-                <p style="color: #666; font-size: 0.9rem; line-height: 1.6;">// All Features<br>// Private Beta Access<br>// Priority Support</p>
+                <ul class="features">
+                    <li>Все функции PVE + PVP</li>
+                    <li>Private Beta (Новые обходы)</li>
+                    <li>Cloud Configs (Топ настройки)</li>
+                    <li>Priority Support 24/7</li>
+                </ul>
                 <div class="price">1290₽</div>
-                <a href="https://t.me" class="buy">КУПИТЬ</a>
+                <a href="https://t.me" class="buy-now">Приобрести</a>
             </div>
         </div>
     </div>
