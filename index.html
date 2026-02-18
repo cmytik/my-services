@@ -3,38 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMYTIK PROJECT | Official Site</title>
+    <title>LESS CLIENT — Minimalist Software</title>
     <style>
-        body { background: #050505; color: #eee; font-family: 'Segoe UI', sans-serif; margin: 0; }
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: radial-gradient(circle, #111 0%, #050505 100%); }
-        .status { color: #00ff88; border: 1px solid #00ff88; padding: 5px 15px; border-radius: 20px; font-size: 0.9em; margin-bottom: 20px; text-transform: uppercase; }
-        h1 { font-size: 4em; margin: 0; color: #fff; letter-spacing: 10px; }
-        .version { color: #555; margin-bottom: 30px; }
-        .buttons { display: flex; gap: 20px; }
-        .btn { padding: 15px 35px; border-radius: 5px; text-decoration: none; font-weight: bold; transition: 0.3s; text-transform: uppercase; }
-        .btn-main { background: #00ff88; color: #000; box-shadow: 0 0 20px rgba(0,255,136,0.3); }
-        .btn-main:hover { transform: scale(1.05); background: #fff; }
-        .btn-sec { border: 1px solid #333; color: #fff; }
-        .btn-sec:hover { background: #111; }
-        .info-section { padding: 50px; background: #080808; border-top: 1px solid #111; text-align: center; }
+        body { 
+            background-color: #050505; 
+            color: #ffffff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh;
+            overflow: hidden;
+        }
+        /* Шум на фоне */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url(https://upload.wikimedia.org);
+            opacity: 0.03;
+            pointer-events: none;
+        }
+        .container { text-align: center; z-index: 1; }
+        h1 { 
+            font-size: 6em; 
+            letter-spacing: 25px; 
+            margin: 0; 
+            font-weight: 200;
+            text-transform: uppercase;
+            color: #fff;
+        }
+        .subtitle { 
+            color: #444; 
+            letter-spacing: 8px; 
+            margin-bottom: 60px; 
+            text-transform: lowercase;
+            font-size: 0.9em;
+        }
+        .nav { display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        .link { 
+            color: #888; 
+            text-decoration: none; 
+            border: 1px solid #1a1a1a; 
+            padding: 12px 0; 
+            width: 240px;
+            transition: all 0.4s ease;
+            background: transparent;
+            font-size: 0.7em;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        .link:hover { 
+            background: #ffffff; 
+            color: #000000; 
+            border-color: #ffffff;
+            box-shadow: 0 0 40px rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+        .footer { 
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            color: #222; 
+            font-size: 0.6em; 
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="status">● Undetected</div>
-        <h1>CMYTIK</h1>
-        <p class="version">Public Beta v1.0.4</p>
+    <div class="container">
+        <h1>LESS</h1>
+        <div class="subtitle">perfection in silence</div>
         
-        <div class="buttons">
-            <!-- Сюда вставь ссылку на файл или пост в ТГ -->
-            <a href="#" class="btn btn-main">Скачать Loader</a>
-            <a href="ТВОЯ_ССЫЛКА_НА_ТГ" class="btn btn-sec">Сообщество (TG)</a>
+        <div class="nav">
+            <a href="#" class="link">Get Access</a>
+            <!-- Замени 'твой_ник' на свой ник в ТГ -->
+            <a href="https://t.me" class="link">Community</a>
         </div>
     </div>
-
-    <div class="info-section">
-        <h2>Почему нам доверяют?</h2>
-        <p>Открытый бета-тест, ежедневные обновления и полная поддержка пользователей.</p>
+    
+    <div class="footer">
+        // status: undetected // build: 1.0.0_stable //
     </div>
 </body>
 </html>
