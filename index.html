@@ -3,89 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LESS CLIENT — Minimalist Software</title>
+    <title>LESS CLIENT — Minimalist PvP</title>
     <style>
         body { 
-            background-color: #050505; 
-            color: #ffffff; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh;
-            overflow: hidden;
+            background-color: #050505; color: #fff; 
+            font-family: 'Segoe UI', sans-serif; margin: 0; 
+            scroll-behavior: smooth; overflow-x: hidden;
         }
-        /* Шум на фоне */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url(https://upload.wikimedia.org);
-            opacity: 0.03;
-            pointer-events: none;
+        /* Декор по бокам */
+        .decor {
+            position: absolute; font-size: 5rem; opacity: 0.1;
+            filter: grayscale(1); animation: float 6s infinite ease-in-out;
+            pointer-events: none; z-index: 0;
         }
-        .container { text-align: center; z-index: 1; }
-        h1 { 
-            font-size: 6em; 
-            letter-spacing: 25px; 
-            margin: 0; 
-            font-weight: 200;
-            text-transform: uppercase;
-            color: #fff;
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
         }
-        .subtitle { 
-            color: #444; 
-            letter-spacing: 8px; 
-            margin-bottom: 60px; 
-            text-transform: lowercase;
-            font-size: 0.9em;
-        }
-        .nav { display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
+        h1 { font-size: 6em; letter-spacing: 25px; margin: 0; font-weight: 200; text-transform: uppercase; z-index: 1; }
+        .subtitle { color: #444; letter-spacing: 8px; margin-bottom: 50px; text-transform: lowercase; z-index: 1; }
+        
+        .nav { display: flex; flex-direction: column; gap: 15px; z-index: 1; }
         .link { 
-            color: #888; 
-            text-decoration: none; 
-            border: 1px solid #1a1a1a; 
-            padding: 12px 0; 
-            width: 240px;
-            transition: all 0.4s ease;
-            background: transparent;
-            font-size: 0.7em;
-            letter-spacing: 4px;
-            text-transform: uppercase;
+            color: #888; text-decoration: none; border: 1px solid #1a1a1a; 
+            padding: 12px 60px; transition: 0.4s; font-size: 0.7em; letter-spacing: 4px; text-transform: uppercase;
         }
-        .link:hover { 
-            background: #ffffff; 
-            color: #000000; 
-            border-color: #ffffff;
-            box-shadow: 0 0 40px rgba(255,255,255,0.1);
-            transform: translateY(-2px);
+        .link:hover { background: #fff; color: #000; border-color: #fff; box-shadow: 0 0 30px rgba(255,255,255,0.1); }
+
+        /* Секция товаров */
+        .shop { padding: 100px 20px; background: #080808; display: flex; flex-direction: column; align-items: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1000px; width: 100%; }
+        .product { 
+            background: #0c0c0c; border: 1px solid #1a1a1a; padding: 30px; 
+            text-align: left; transition: 0.3s;
         }
-        .footer { 
-            position: absolute;
-            bottom: 40px;
-            width: 100%;
-            color: #222; 
-            font-size: 0.6em; 
-            letter-spacing: 3px;
-            text-transform: uppercase;
+        .product:hover { border-color: #fff; transform: translateY(-5px); }
+        .product h3 { letter-spacing: 3px; margin-top: 0; }
+        .price { color: #555; font-size: 1.2em; margin: 15px 0; }
+        .buy-btn { 
+            display: block; text-align: center; padding: 10px; border: 1px solid #333; 
+            color: #fff; text-decoration: none; font-size: 0.8em; transition: 0.3s;
         }
+        .buy-btn:hover { background: #fff; color: #000; }
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <!-- Декор (пвп элементы) -->
+    <div class="decor" style="top: 15%; left: 10%;">✦</div>
+    <div class="decor" style="top: 70%; left: 15%; animation-delay: 1s;">⚔</div>
+    <div class="decor" style="top: 20%; right: 10%; animation-delay: 2s;">✧</div>
+    <div class="decor" style="top: 65%; right: 15%; animation-delay: 3s;">🛡</div>
+
+    <div class="hero">
         <h1>LESS</h1>
         <div class="subtitle">perfection in silence</div>
-        
         <div class="nav">
-            <a href="#" class="link">Get Access</a>
-            <!-- Замени 'твой_ник' на свой ник в ТГ -->
+            <a href="#store" class="link">Buy Now</a>
             <a href="https://t.me" class="link">Community</a>
         </div>
     </div>
-    
-    <div class="footer">
-        // status: undetected // build: 1.0.0_stable //
+
+    <div id="store" class="shop">
+        <h2 style="letter-spacing: 15px; margin-bottom: 50px; opacity: 0.5;">STORE</h2>
+        <div class="grid">
+            <!-- Товар 1 -->
+            <div class="product">
+                <h3>LITE EDITION</h3>
+                <p style="color: #444; font-size: 0.8em;">Базовые функции для легитной игры. Bypass основных античитов.</p>
+                <div class="price">490₽ / month</div>
+                <a href="https://t.me" class="buy-btn">Purchase</a>
+            </div>
+            <!-- Товар 2 -->
+            <div class="product">
+                <h3>FULL VERSION</h3>
+                <p style="color: #444; font-size: 0.8em;">Полный набор функций: Rage, Advanced Visuals, Movement.</p>
+                <div class="price">990₽ / month</div>
+                <a href="https://t.me" class="buy-btn">Purchase</a>
+            </div>
+            <!-- Товар 3 -->
+            <div class="product">
+                <h3>PRIVATE CFG</h3>
+                <p style="color: #444; font-size: 0.8em;">Набор лучших конфигов от разработчика под разные сервера.</p>
+                <div class="price">250₽ / lifetime</div>
+                <a href="https://t.me" class="buy-btn">Purchase</a>
+            </div>
+        </div>
     </div>
+
 </body>
 </html>
