@@ -3,209 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LESS CLIENT — Official</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+    <title>LESS — OFFICIAL</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root {
-            --bg: #050505;
-            --accent: #ffffff;
-            --border: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
         }
 
-        body { 
-            background: var(--bg);
-            color: #fff; 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; 
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             overflow-x: hidden;
-            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
         }
 
-        /* Анимированный градиент на фоне */
-        .bg-gradient {
+        /* Анимированный фон (перелив черный-белый-черный) */
+        .bg-animator {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #111 0%, #050505 100%);
             z-index: -2;
-            animation: pulseBg 8s infinite alternate;
+            animation: bgShift 15s infinite ease-in-out;
         }
 
-        @keyframes pulseBg {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
+        @keyframes bgShift {
+            0%, 100% { background-color: #000000; }
+            50% { background-color: #1a1a1a; } /* Не совсем белый, чтобы не выжигать глаза, а глубокий серый */
         }
 
-        /* Контейнер для летающих предметов */
-        #particles {
+        /* Контейнер для предметов */
+        #floating-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: -1;
         }
 
-        .item {
+        .mc-item {
             position: absolute;
-            color: rgba(255, 255, 255, 0.15);
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.05));
-            animation: float linear infinite;
+            width: 64px;
+            height: 64px;
+            image-rendering: pixelated; /* Чтобы майнкрафт вещи были четкими */
+            opacity: 0.3;
+            animation: flyUp linear infinite;
         }
 
-        @keyframes float {
-            from { transform: translateY(110vh) rotate(0deg); }
-            to { transform: translateY(-20vh) rotate(360deg); }
+        @keyframes flyUp {
+            0% { transform: translateY(110vh) rotate(0deg); }
+            100% { transform: translateY(-20vh) rotate(360deg); }
         }
 
-        /* Главный экран */
-        .hero { 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
+        /* Главный контент */
+        .main-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
         }
 
-        h1 { 
-            font-family: 'Unbounded', sans-serif; 
-            font-size: clamp(4rem, 15vw, 10rem); 
-            margin: 0; 
-            letter-spacing: -2px;
-        }
-
-        .subtitle { 
-            color: #444; 
-            letter-spacing: 8px; 
-            margin-bottom: 40px; 
+        h1 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: clamp(4rem, 18vw, 12rem);
+            color: var(--text-color);
+            margin: 0;
+            letter-spacing: -5px;
             text-transform: uppercase;
-            font-size: 0.8rem;
         }
-        
-        .nav-buttons { display: flex; gap: 15px; }
 
-        .btn { 
-            color: #fff; 
-            text-decoration: none; 
-            border: 1px solid var(--border);
-            padding: 15px 40px; 
-            transition: 0.4s; 
-            font-size: 0.7rem; 
+        .desc {
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            font-size: 0.7rem;
+            margin-top: -10px;
+            margin-bottom: 50px;
+        }
+
+        .btns {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            text-decoration: none;
             font-weight: 700;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            background: rgba(255,255,255,0.03);
+            transition: 0.3s ease;
             backdrop-filter: blur(5px);
         }
 
-        .btn:hover { 
-            background: #fff; 
-            color: #000; 
-            border-color: #fff;
-        }
-
-        /* Соцсети снизу слева */
-        .social-bar {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            display: flex;
-            gap: 20px;
-            z-index: 100;
-        }
-
-        .social-icon {
-            color: #444;
-            font-size: 1.5rem;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-
-        .social-icon:hover {
-            color: #fff;
+        .btn:hover {
+            background: #fff;
+            color: #000;
             transform: translateY(-5px);
         }
 
-        /* Сетка товаров */
-        .shop { padding: 100px 20px; max-width: 1100px; margin: 0 auto; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .card { 
-            background: #080808; 
-            border: 1px solid var(--border); 
-            padding: 40px; 
-            transition: 0.3s;
+        /* Секция магазина */
+        .store {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .card:hover { border-color: #fff; }
-        .card h3 { font-family: 'Unbounded', sans-serif; margin-top: 0; }
-        .price { font-size: 2rem; font-family: 'Unbounded', sans-serif; margin: 20px 0; }
-        .buy-btn { 
-            display: block; text-align: center; padding: 15px; 
-            background: #fff; color: #000; text-decoration: none;
-            font-weight: 700; font-size: 0.8rem;
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 40px;
+            transition: 0.4s;
+        }
+
+        .card:hover {
+            border-color: #fff;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .card h3 { font-family: 'Unbounded', sans-serif; margin-bottom: 20px; }
+        .price { font-size: 2.5rem; font-weight: 900; margin: 20px 0; font-family: 'Unbounded'; }
+        
+        .buy-link {
+            display: block;
+            text-align: center;
+            background: #fff;
+            color: #000;
+            padding: 15px;
+            text-decoration: none;
+            font-weight: 900;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-gradient"></div>
-    <div id="particles"></div>
+    <div class="bg-animator"></div>
+    <div id="floating-container"></div>
 
-    <div class="social-bar">
-        <a href="https://t.me/lessclient" class="social-icon" target="_blank"><i class="fab fa-telegram"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-    </div>
-
-    <div class="hero">
+    <div class="main-screen">
         <h1>LESS</h1>
-        <div class="subtitle">Official Client Solution</div>
-        <div class="nav-buttons">
-            <a href="#store" class="btn">Магазин</a>
-            <a href="https://t.me/lessclient" class="btn">Новости</a>
+        <div class="desc">Official Client Solution</div>
+        <div class="btns">
+            <a href="#shop" class="btn">Магазин</a>
+            <a href="https://t.me" class="btn">Новости</a>
         </div>
     </div>
 
-    <div id="store" class="shop">
+    <div id="shop" class="store">
         <div class="grid">
             <div class="card">
                 <h3>PVE EDITION</h3>
-                <p style="color: #666; font-size: 0.9rem;">// Auto-Farm, X-Ray, MobAura</p>
+                <p style="color: #666;">Автоматизация процесса выживания.</p>
                 <div class="price">390₽</div>
-                <a href="https://t.me/lessclient" class="buy-btn">КУПИТЬ</a>
+                <a href="https://t.me" class="buy-link">ВЗЯТЬ</a>
             </div>
             <div class="card">
                 <h3>PVP EDITION</h3>
-                <p style="color: #666; font-size: 0.9rem;">// KillAura, Reach, Velocity</p>
+                <p style="color: #666;">Доминирование в каждом сражении.</p>
                 <div class="price">690₽</div>
-                <a href="https://t.me/lessclient" class="buy-btn">КУПИТЬ</a>
+                <a href="https://t.me" class="buy-link">ВЗЯТЬ</a>
             </div>
             <div class="card">
                 <h3>ULTIMATE</h3>
-                <p style="color: #666; font-size: 0.9rem;">// All Features + Private Beta</p>
+                <p style="color: #666;">Полный спектр возможностей чита.</p>
                 <div class="price">1290₽</div>
-                <a href="https://t.me/lessclient" class="buy-btn">КУПИТЬ</a>
+                <a href="https://t.me" class="buy-link">ВЗЯТЬ</a>
             </div>
         </div>
     </div>
 
     <script>
-        function createItems() {
-            const container = document.getElementById('particles');
-            const icons = ['fa-bolt', 'fa-shield-halved', 'fa-sword', 'fa-gem', 'fa-skull'];
-            const count = 15;
+        const container = document.getElementById('floating-container');
+        // Прямые ссылки на иконки предметов из Minecraft
+        const items = [
+            'https://minecraft.wiki',
+            'https://minecraft.wiki',
+            'https://minecraft.wiki',
+            'https://minecraft.wiki',
+            'https://minecraft.wiki'
+        ];
 
-            for (let i = 0; i < count; i++) {
-                const item = document.createElement('i');
-                const iconClass = icons[Math.floor(Math.random() * icons.length)];
-                
-                item.className = `fas ${iconClass} item`;
-                item.style.left = Math.random() * 100 + 'vw';
-                item.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                item.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                item.style.animationDelay = (Math.random() * 10) + 's';
-                
-                container.appendChild(item);
-            }
+        function spawnItem() {
+            const img = document.createElement('img');
+            img.src = items[Math.floor(Math.random() * items.length)];
+            img.className = 'mc-item';
+            
+            // Рандомная позиция и параметры
+            const startPos = Math.random() * 100;
+            const duration = 10 + Math.random() * 15;
+            const size = 30 + Math.random() * 40;
+
+            img.style.left = startPos + 'vw';
+            img.style.width = size + 'px';
+            img.style.height = 'auto';
+            img.style.animationDuration = duration + 's';
+            
+            container.appendChild(img);
+
+            // Удаляем элемент после завершения анимации, чтобы не лагало
+            setTimeout(() => {
+                img.remove();
+            }, duration * 1000);
         }
-        createItems();
+
+        // Спавним предметы каждые 1.5 секунды
+        setInterval(spawnItem, 1500);
+        // Сразу создаем пачку предметов при загрузке
+        for(let i=0; i<8; i++) spawnItem();
     </script>
 
 </body>
