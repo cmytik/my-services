@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LESS CLIENT — Official</title>
+    <title>LESS — Professional Utility Assistant</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root {
@@ -17,74 +17,48 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         html { scroll-behavior: smooth; }
+        body { background-color: var(--bg); color: var(--accent); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        body {
-            background-color: var(--bg);
-            color: var(--accent);
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* КУРСОР И ЧАСТИЦЫ */
+        /* КУРСОР */
         #cursor { width: 6px; height: 6px; background: #fff; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; }
         #cursor-follower { width: 26px; height: 26px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: transform 0.1s ease-out; }
-        .spark { position: fixed; width: 2px; height: 2px; background: #fff; border-radius: 50%; pointer-events: none; z-index: 9997; transition: transform 0.8s ease-out, opacity 0.8s ease-out; }
 
-        /* СТАТУС БАР И ОНЛАЙН */
+        /* ИНТЕРФЕЙС */
         .status-container { position: fixed; top: 20px; right: 30px; z-index: 100; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
-        .status-bar {
-            font-size: 0.6rem; letter-spacing: 2px; font-weight: 700;
-            display: flex; align-items: center; gap: 10px;
-            background: rgba(0,0,0,0.5); padding: 8px 18px; border-radius: 50px;
-            border: 1px solid var(--border); backdrop-filter: blur(10px);
-        }
-        .online-count { font-size: 0.55rem; color: var(--text-dim); letter-spacing: 1px; font-weight: 600; }
+        .status-bar { font-size: 0.6rem; letter-spacing: 2px; font-weight: 700; display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.5); padding: 8px 18px; border-radius: 50px; border: 1px solid var(--border); backdrop-filter: blur(10px); }
         .dot { width: 6px; height: 6px; background: var(--status-green); border-radius: 50%; box-shadow: 0 0 10px var(--status-green); animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-        /* АНИМАЦИЯ ПОЯВЛЕНИЯ */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* ГЛАВНЫЙ ЭКРАН */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(3.5rem, 12vw, 7rem); margin-bottom: 10px; letter-spacing: -2px; }
         .subtitle { color: var(--text-dim); text-transform: uppercase; letter-spacing: 12px; font-size: 0.65rem; margin-bottom: 45px; }
-        
-        .btn-wrap { display: flex; gap: 20px; }
-        .btn { text-decoration: none; color: #fff; padding: 16px 45px; border: 1px solid var(--border); border-radius: 14px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; background: rgba(255,255,255,0.01); transition: 0.3s; }
-        .btn:hover { background: #fff; color: #000; transform: translateY(-5px); }
 
         /* МАГАЗИН */
         .store { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 50px 40px; transition: 0.4s; display: flex; flex-direction: column; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 50px 40px; transition: 0.4s; }
         .card:hover { border-color: rgba(255,255,255,0.4); transform: translateY(-5px); background: rgba(255,255,255,0.04); }
-        .card h3 { letter-spacing: 2px; color: rgba(255,255,255,0.8); margin-bottom: 15px; }
-        .card p { color: #666; font-size: 0.85rem; line-height: 1.8; margin-bottom: 25px; flex-grow: 1; }
+        .card h3 { letter-spacing: 2px; color: rgba(255,255,255,0.8); margin-bottom: 15px; font-size: 0.9rem; }
+        .card p { color: #666; font-size: 0.8rem; line-height: 1.8; margin-bottom: 25px; }
         .price { font-family: 'Unbounded', sans-serif; font-size: 2.5rem; margin-bottom: 25px; }
-        .buy { display: block; text-align: center; background: #fff; color: #000; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: 700; text-transform: uppercase; transition: 0.3s; }
+        .buy-btn { display: block; width: 100%; text-align: center; background: #fff; color: #000; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: 700; text-transform: uppercase; transition: 0.3s; border: none; font-size: 0.7rem; }
 
-        /* ОТЗЫВЫ И FAQ */
-        .reviews { padding: 100px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
-        .review-card { background: var(--card-bg); padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 30px; }
-        .review-text { font-style: italic; color: #ccc; margin-bottom: 20px; line-height: 1.6; }
-        .review-author { font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; color: var(--status-green); }
+        /* МОДАЛЬНОЕ ОКНО */
+        #modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(15px); }
+        .modal { background: #0a0a0a; border: 1px solid var(--border); padding: 40px; border-radius: 30px; max-width: 500px; width: 90%; }
+        .modal h2 { font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; color: #fff; }
+        .modal-text { font-size: 0.75rem; color: #666; line-height: 1.6; margin-bottom: 25px; }
+        .modal-text b { color: #aaa; }
 
-        .faq { padding: 50px 20px 100px; max-width: 800px; margin: 0 auto; }
-        .faq-item { margin-bottom: 15px; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-        .faq-q { padding: 20px; background: rgba(255,255,255,0.01); font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
-        .faq-a { padding: 0 20px; max-height: 0; overflow: hidden; transition: 0.4s; color: #777; font-size: 0.9rem; line-height: 1.6; }
-        .faq-item:hover .faq-a { padding: 20px; max-height: 200px; }
-
-        /* CHANGELOG */
-        .changelog { padding: 100px 20px; max-width: 700px; margin: 0 auto; }
-        .log-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
-        .log-version { font-weight: 700; color: var(--status-green); }
-
-        footer { padding: 80px 0; text-align: center; border-top: 1px solid var(--border); }
-        .copy { font-size: 0.6rem; color: #222; letter-spacing: 2px; }
+        /* ФУТЕР */
+        footer { padding: 80px 20px; border-top: 1px solid var(--border); margin-top: 100px; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+        .footer-box h4 { font-size: 0.65rem; letter-spacing: 2px; color: #888; margin-bottom: 20px; text-transform: uppercase; }
+        .footer-box p { font-size: 0.7rem; color: #444; line-height: 1.8; }
+        
         .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at center, #0d0d0d 0%, #000 100%); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
@@ -92,143 +66,109 @@
     <div id="cursor"></div>
     <div id="cursor-follower"></div>
 
+    <!-- Модальное окно (Лицензионное соглашение) -->
+    <div id="modal-overlay">
+        <div class="modal">
+            <h2>Пользовательское соглашение</h2>
+            <div class="modal-text">
+                <b>1. О продукте:</b> LESS — это вспомогательное ПО для оптимизации пользовательского взаимодействия с игровым интерфейсом.<br><br>
+                <b>2. Риски:</b> Разработчик не несет ответственности за любые ограничения игровых аккаунтов. Используя ассистент, вы принимаете все риски на себя.<br><br>
+                <b>3. Возврат:</b> В связи с цифровой природой продукта, возврат средств после активации доступа не предусмотрен.
+            </div>
+            <button class="buy-btn" onclick="acceptLegal()">Принимаю условия и покупаю</button>
+        </div>
+    </div>
+
     <div class="status-container">
-        <div class="status-bar"><div class="dot"></div> SYSTEM STATUS: UNDETECTED</div>
-        <div class="online-count">USERS ONLINE: <span id="user-count">1,248</span></div>
+        <div class="status-bar"><div class="dot"></div> SYSTEM STATUS: STABLE</div>
+        <div class="online-count">ACTIVE USERS: <span id="user-count">1,248</span></div>
     </div>
 
     <div class="bg-glow"></div>
 
     <section class="hero reveal">
         <h1>LESS</h1>
-        <div class="subtitle">Premium Utility Solution</div>
-        <div class="btn-wrap">
-            <a href="#shop" class="btn">Магазин</a>
-            <a href="https://t.me" target="_blank" class="btn">Новости</a>
-        </div>
+        <div class="subtitle">Next-Gen Gameplay Assistant</div>
     </section>
 
     <section id="shop" class="store reveal">
-        <h2 style="text-align:center; margin-bottom:50px; font-family:'Unbounded'; font-size: 1rem; letter-spacing: 5px;">STORE</h2>
         <div class="grid">
+            <!-- PVE Пакет -->
             <div class="card">
-                <h3>PVE EDITION</h3>
-                <p>— Auto-Farm (Умная добыча)<br>— Mob Aura 360°<br>— X-Ray (Настройка фильтров)</p>
+                <h3>PVE ASSISTANT</h3>
+                <p>
+                    — <b>Inventory Helper</b> (Автоматизация ресурсов)<br>
+                    — <b>Visual Optimization</b> (Улучшенная видимость)<br>
+                    — <b>Advanced Movement</b> (Плавное перемещение)
+                </p>
                 <div class="price">390₽</div>
-                <a href="https://t.me" target="_blank" class="buy">Приобрести</a>
+                <button class="buy-btn" onclick="openLegal()">Приобрести</button>
             </div>
-            <div class="card">
-                <h3>PVP EDITION</h3>
-                <p>— KillAura (Bypass Anticheats)<br>— Velocity & Reach<br>— Auto-Totem & Auto-Gap</p>
+
+            <!-- PVP Пакет -->
+            <div class="card" style="border-color: rgba(255,255,255,0.15);">
+                <h3>COMBAT EDITION</h3>
+                <p>
+                    — <b>Combat Assistant</b> (Помощь в наведении)<br>
+                    — <b>Dynamic Response</b> (Улучшенная реакция)<br>
+                    — <b>Priority Support</b> (Тех. поддержка 24/7)
+                </p>
                 <div class="price">690₽</div>
-                <a href="https://t.me" target="_blank" class="buy">Приобрести</a>
+                <button class="buy-btn" onclick="openLegal()">Приобрести</button>
             </div>
+
+            <!-- Полный доступ -->
             <div class="card">
-                <h3>ULTIMATE</h3>
-                <p>— Все функции PVE + PVP<br>— Private Beta (Новые обходы)<br>— Priority Support 24/7</p>
+                <h3>ULTIMATE ACCESS</h3>
+                <p>
+                    — Весь функционал PVE + COMBAT<br>
+                    — Доступ к закрытому тестированию модулей<br>
+                    — Пожизненные обновления ассистента
+                </p>
                 <div class="price">1290₽</div>
-                <a href="https://t.me" target="_blank" class="buy">Приобрести</a>
+                <button class="buy-btn" onclick="openLegal()">Приобрести</button>
             </div>
-        </div>
-    </section>
-
-    <section class="reviews reveal">
-        <h2 style="margin-bottom:50px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px; text-align: center;">ОТЗЫВЫ</h2>
-        <div class="review-card">
-            <p class="review-text">«Лучший софт для игры на анархии. Обходы работают стабильно, а визуальная часть просто пушка.»</p>
-            <p class="review-author">@User_Infinity</p>
-        </div>
-    </section>
-
-    <section class="faq reveal">
-        <h2 style="margin-bottom:30px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px; text-align: center;">FAQ</h2>
-        <div class="faq-item">
-            <div class="faq-q">КАК ПОЛУЧИТЬ КЛЮЧ ПОСЛЕ ОПЛАТЫ? <span>+</span></div>
-            <div class="faq-a">После подтверждения транзакции бот в Telegram автоматически выдаст вам лицензионный ключ в течение 5 минут.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-q">ЕСТЬ ЛИ ПОДДЕРЖКА FORGE / FABRIC? <span>+</span></div>
-            <div class="faq-a">Наш клиент работает на собственной базе для максимального FPS.</div>
-        </div>
-    </section>
-
-    <section class="changelog reveal">
-        <h2 style="margin-bottom:30px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px;">CHANGELOG</h2>
-        <div class="log-item">
-            <span class="log-version">V 1.0.2</span>
-            <span style="color:#888">Исправлен обход Matrix & AAC</span>
-            <span style="color:var(--text-dim)">15.05.2024</span>
         </div>
     </section>
 
     <footer>
-        <div class="copy">© 2024 LESS CLIENT. ALL RIGHTS RESERVED.</div>
+        <div class="footer-grid">
+            <div class="footer-box">
+                <h4>Legal Disclaimer</h4>
+                <p>Программное обеспечение LESS является частным инструментом для улучшения игрового опыта. Мы не поддерживаем действия, нарушающие целостность серверной инфраструктуры или препятствующие нормальной работе ЭВМ. Продукт создан для помощи пользователю в рамках игрового процесса.</p>
+            </div>
+            <div class="footer-box">
+                <h4>Notice</h4>
+                <p>Все права на игру принадлежат их законным правообладателям. LESS является независимым аддоном и не аффилирован с разработчиками игровых проектов. По вопросам сотрудничества пишите в официальные каналы связи.</p>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:60px; font-size:0.5rem; color:#222; letter-spacing:4px; text-transform: uppercase;">
+            © 2024 LESS UTILITY PROJECT. ALL RIGHTS RESERVED.
+        </div>
     </footer>
 
     <script>
+        function openLegal() { document.getElementById('modal-overlay').style.display = 'flex'; }
+        function acceptLegal() { window.location.href = "https://t.me"; }
+
+        // Курсор и анимации
         const cursor = document.getElementById('cursor');
         const follower = document.getElementById('cursor-follower');
-        
-        const clickSfx = new Audio('https://cdn.pixabay.com');
-        const bgMusic = new Audio('https://cdn.pixabay.com');
-        bgMusic.loop = true; bgMusic.volume = 0.1;
-
-        let musicStarted = false;
-
-        // Логика курсора и искр
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
-            setTimeout(() => {
-                follower.style.left = (e.clientX - 13) + 'px';
-                follower.style.top = (e.clientY - 13) + 'px';
-            }, 40);
-
-            // Создаем искру
-            createSpark(e.clientX, e.clientY);
+            follower.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
         });
 
-        function createSpark(x, y) {
-            const spark = document.createElement('div');
-            spark.className = 'spark';
-            spark.style.left = x + 'px';
-            spark.style.top = y + 'px';
-            document.body.appendChild(spark);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-            const destX = x + (Math.random() - 0.5) * 40;
-            const destY = y + (Math.random() - 0.5) * 40;
-
-            setTimeout(() => {
-                spark.style.transform = `translate(${destX - x}px, ${destY - y}px)`;
-                spark.style.opacity = '0';
-            }, 10);
-
-            setTimeout(() => spark.remove(), 800);
-        }
-
-        document.addEventListener('mousedown', () => {
-            if (!musicStarted) { bgMusic.play(); musicStarted = true; }
-            clickSfx.currentTime = 0; clickSfx.play();
-            follower.style.transform = 'scale(0.8)';
-        });
-        document.addEventListener('mouseup', () => { follower.style.transform = 'scale(1)'; });
-
-        // Появление при скролле
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                if (elementTop < windowHeight - 150) { reveals[i].classList.add("active"); }
-            }
-        }
-        window.addEventListener("scroll", reveal); reveal();
-
-        // Онлайн
         setInterval(() => {
             const count = document.getElementById('user-count');
             let current = parseInt(count.innerText.replace(',', ''));
-            count.innerText = (current + (Math.floor(Math.random() * 5) - 2)).toLocaleString();
+            count.innerText = (current + Math.floor(Math.random() * 5 - 2)).toLocaleString();
         }, 3000);
     </script>
 </body>
