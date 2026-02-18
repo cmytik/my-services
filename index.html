@@ -20,8 +20,11 @@
         body { background-color: var(--bg); color: var(--accent); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
         /* КУРСОР */
-        #cursor { width: 6px; height: 6px; background: #fff; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; }
-        #cursor-follower { width: 26px; height: 26px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: transform 0.1s ease-out; }
+        #cursor { width: 6px; height: 6px; background: #fff; border-radius: 50%; position: fixed; pointer-events: none; z-index: 10001; }
+        #cursor-follower { width: 26px; height: 26px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; position: fixed; pointer-events: none; z-index: 10000; transition: transform 0.1s ease-out; }
+
+        /* ЧАСТИЦЫ НА ФОНЕ */
+        #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; }
 
         /* СТАТУС */
         .status-container { position: fixed; top: 20px; right: 30px; z-index: 100; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
@@ -31,7 +34,7 @@
         .online-count { font-size: 0.55rem; color: var(--text-dim); letter-spacing: 1px; font-weight: 600; }
 
         /* ГЛАВНЫЙ ЭКРАН */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
         h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(3.5rem, 12vw, 7rem); margin-bottom: 10px; letter-spacing: -2px; }
         .subtitle { color: var(--text-dim); text-transform: uppercase; letter-spacing: 12px; font-size: 0.65rem; margin-bottom: 45px; }
         
@@ -42,19 +45,14 @@
         /* МАГАЗИН */
         .store { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 50px 40px; transition: 0.4s; display: flex; flex-direction: column; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 50px 40px; transition: 0.4s; display: flex; flex-direction: column; position: relative; overflow: hidden; }
         .card:hover { border-color: rgba(255,255,255,0.4); transform: translateY(-5px); }
         .card h3 { letter-spacing: 2px; color: rgba(255,255,255,0.8); margin-bottom: 15px; font-size: 0.9rem; }
         .card p { color: #666; font-size: 0.8rem; line-height: 1.8; margin-bottom: 25px; flex-grow: 1; }
         .price { font-family: 'Unbounded', sans-serif; font-size: 2.5rem; margin-bottom: 25px; }
         .buy-btn { display: block; width: 100%; text-align: center; background: #fff; color: #000; padding: 18px; border-radius: 12px; font-weight: 700; text-transform: uppercase; transition: 0.3s; border: none; font-size: 0.7rem; }
 
-        /* ОТЗЫВЫ */
-        .reviews { padding: 100px 20px; max-width: 800px; margin: 0 auto; }
-        .review-card { background: var(--card-bg); padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 25px; }
-        .review-text { font-style: italic; color: #ccc; margin-bottom: 15px; font-size: 0.85rem; line-height: 1.6; }
-
-        /* FAQ (АВТО-ОТКРЫТИЕ ПРИ НАВЕДЕНИИ) */
+        /* FAQ (HOVER) */
         .faq { padding: 100px 20px; max-width: 800px; margin: 0 auto; }
         .faq-item { margin-bottom: 15px; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: 0.3s; }
         .faq-q { padding: 20px; background: rgba(255,255,255,0.01); font-weight: 600; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
@@ -62,23 +60,21 @@
         .faq-item:hover { border-color: rgba(255,255,255,0.2); }
         .faq-item:hover .faq-a { max-height: 200px; padding: 20px; }
 
-        /* CHANGELOG */
-        .changelog { padding: 100px 20px; max-width: 700px; margin: 0 auto; }
+        /* ОТЗЫВЫ И CHANGELOG */
+        .reviews, .changelog { padding: 100px 20px; max-width: 800px; margin: 0 auto; }
+        .review-card { background: var(--card-bg); padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 25px; }
         .log-item { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
         .log-version { font-weight: 700; color: var(--status-green); }
 
-        /* МОДАЛЬНОЕ ОКНО */
+        /* МОДАЛКА (ФИКС МЫШКИ) */
         #modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(15px); }
+        #modal-overlay.active { display: flex; cursor: auto; } /* Возвращаем мышку */
+        #modal-overlay.active * { cursor: auto; }
         .modal { background: #0a0a0a; border: 1px solid var(--border); padding: 40px; border-radius: 30px; max-width: 500px; width: 90%; }
         .modal h2 { font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; color: #fff; }
         .modal-text { font-size: 0.75rem; color: #666; line-height: 1.6; margin-bottom: 25px; }
 
-        /* ФУТЕР */
         footer { padding: 80px 20px; border-top: 1px solid var(--border); margin-top: 100px; text-align: center; }
-        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; text-align: left; }
-        .footer-box h4 { font-size: 0.65rem; letter-spacing: 2px; color: #888; margin-bottom: 20px; text-transform: uppercase; }
-        .footer-box p { font-size: 0.7rem; color: #444; line-height: 1.8; }
-        
         .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at center, #0d0d0d 0%, #000 100%); }
         .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
@@ -88,14 +84,16 @@
 
     <div id="cursor"></div>
     <div id="cursor-follower"></div>
+    <!-- ФОН С ЧАСТИЦАМИ -->
+    <div id="particles-js"></div>
 
     <div id="modal-overlay">
         <div class="modal">
-            <h2>ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ</h2>
+            <h2>СОГЛАШЕНИЕ</h2>
             <div class="modal-text">
-                <b>1. О продукте:</b> LESS — это вспомогательное ПО для оптимизации игрового процесса и автоматизации рутинных действий.<br><br>
-                <b>2. Риски:</b> Автор не несет ответственности за любые ограничения (баны) игровых аккаунтов. Используя ассистент, вы принимаете все риски на себя.<br><br>
-                <b>3. Возврат:</b> Цифровой товар возврату не подлежит после получения лицензионного ключа.
+                <b>1. О продукте:</b> LESS — вспомогательное ПО для оптимизации игрового процесса.<br><br>
+                <b>2. Риски:</b> Автор не несет ответственности за игровые блокировки. Все риски на пользователе.<br><br>
+                <b>3. Возврат:</b> Цифровой товар возврату не подлежит.
             </div>
             <button class="buy-btn" onclick="acceptLegal()">ПРИНЯТЬ И ОПЛАТИТЬ</button>
         </div>
@@ -118,50 +116,37 @@
     </section>
 
     <section id="shop" class="store reveal">
-        <h2 style="text-align:center; margin-bottom:50px; font-family:'Unbounded'; font-size: 1rem; letter-spacing: 5px;">STORE</h2>
         <div class="grid">
             <div class="card">
                 <h3>PVE EDITION</h3>
-                <p>— Inventory Helper (Автоматизация)<br>— Visual Optimization (Визуалы)<br>— Environment Helper</p>
+                <p>— Inventory Helper<br>— Visual Optimization<br>— Auto-Farm Support</p>
                 <div class="price">390₽</div>
                 <button class="buy-btn" onclick="openLegal()">Приобрести</button>
             </div>
             <div class="card" style="border-color: rgba(255,255,255,0.15);">
                 <h3>COMBAT EDITION</h3>
-                <p>— Combat Assistant (Ассистент)<br>— Dynamic Response (Реакция)<br>— Priority Support 24/7</p>
+                <p>— Combat Assistant<br>— Dynamic Response<br>— Priority Support</p>
                 <div class="price">690₽</div>
                 <button class="buy-btn" onclick="openLegal()">Приобрести</button>
             </div>
             <div class="card">
                 <h3>ULTIMATE ACCESS</h3>
-                <p>— Весь функционал PVE + COMBAT<br>— Доступ к закрытым тестам<br>— Пожизненные обновления</p>
+                <p>— PVE + COMBAT<br>— Private Beta Access<br>— Lifetime Updates</p>
                 <div class="price">1290₽</div>
                 <button class="buy-btn" onclick="openLegal()">Приобрести</button>
             </div>
         </div>
     </section>
 
-    <section class="reviews reveal">
-        <h2 style="margin-bottom:50px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px; text-align: center;">ОТЗЫВЫ</h2>
-        <div class="review-card">
-            <p class="review-text">«Лучший ассистент для игры на анархии. Оптимизация на высоте, FPS не падает, а визуалы выглядят очень стильно.»</p>
-            <p style="color: var(--status-green); font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">@USER_1</p>
-        </div>
-        <div class="review-card">
-            <p class="review-text">«Пользуюсь неделю. Combat Assistant работает максимально плавно. Техподдержка отвечает быстро.»</p>
-            <p style="color: var(--status-green); font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">@USER_2</p>
-        </div>
-    </section>
-
     <section class="faq reveal">
         <h2 style="margin-bottom:40px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px; text-align: center;">F.A.Q.</h2>
         <div class="faq-item">
-            <div class="faq-q">Безопасно ли использовать LESS?</div>
-            <div class="faq-a">Наш ассистент использует передовые алгоритмы оптимизации. Мы всегда рекомендуем соблюдать осторожность.</div>
+            <div class="faq-q">Безопасно ли это?</div>
+            <div class="faq-a">Наши алгоритмы минимизируют риски. Мы используем обходы, адаптированные под современные системы защиты.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-q">Как происходит активация?</div>
-            <div class="faq-a">После оплаты вы получаете уникальный ключ в Telegram. Введите его в нашем лаунчере для доступа.</div>
+            <div class="faq-q">Как получить ключ?</div>
+            <div class="faq-a">После оплаты ключ придет автоматически в ваш Telegram. Введите его в лаунчере.</div>
         </div>
     </section>
 
@@ -172,33 +157,44 @@
             <span style="color: #444;">18.02.2024</span>
         </div>
         <div class="log-item">
-            <p style="color: #666; font-size: 0.75rem; line-height: 1.6;">— Обновлена система Inventory Helper<br>— Оптимизирован Combat Assistant для 1.16.5<br>— Обновлены обходы античитов.</p>
+            <p style="color: #666; font-size: 0.75rem;">— Обновлены системы защиты<br>— Улучшена плавность ассистента</p>
         </div>
     </section>
 
     <footer>
-        <div class="footer-grid">
-            <div class="footer-box">
-                <h4>Legal Disclaimer</h4>
-                <p>ПО LESS является частным инструментом для улучшения игрового опыта. Мы выступаем за честную автоматизацию. Не является официальным продуктом Mojang.</p>
-            </div>
-            <div class="footer-box">
-                <h4>Support</h4>
-                <p>По вопросам приобретения и настройки обращайтесь в нашу поддержку в Telegram. Мы ответим вам в кратчайшие сроки.</p>
-            </div>
-        </div>
-        <div style="text-align:center; margin-top:60px; font-size:0.5rem; color:#222; letter-spacing:4px;">© 2024 LESS PROJECT. ALL RIGHTS RESERVED.</div>
+        <p style="font-size:0.7rem; color:#333;">© 2024 LESS PROJECT. Данный продукт является частной модификацией.</p>
     </footer>
 
+    <!-- СКРИПТ ЧАСТИЦ -->
+    <script src="https://cdn.jsdelivr.net"></script>
     <script>
-        function openLegal() { document.getElementById('modal-overlay').style.display = 'flex'; }
+        // ИНИЦИАЛИЗАЦИЯ ЛЕТЯЩИХ ПРЕДМЕТОВ (ЧАСТИЦ)
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.2, "random": true },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 1, "direction": "top", "random": true, "straight": false, "out_mode": "out" }
+            },
+            "interactivity": { "events": { "onhover": { "enable": false } } }
+        });
+
+        // МЫШКА И МОДАЛКА
+        const modal = document.getElementById('modal-overlay');
+        function openLegal() { 
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
         function acceptLegal() { window.location.href = "https://t.me"; }
 
         const cursor = document.getElementById('cursor');
         const follower = document.getElementById('cursor-follower');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
-            follower.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+            follower.style.transform = `translate(${e.clientX - 13}px, ${e.clientY - 13}px)`;
         });
 
         const observer = new IntersectionObserver((entries) => {
