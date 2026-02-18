@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LESS CLIENT — Official</title>
+    <!-- Иконки, которые точно работают -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root {
@@ -11,7 +13,7 @@
             --accent: #ffffff;
             --card-bg: rgba(255, 255, 255, 0.02);
             --border: rgba(255, 255, 255, 0.08);
-            --text-dim: #777;
+            --text-dim: #555;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,30 +24,26 @@
             color: var(--accent);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            /* Эффект появления всего сайта */
             animation: fadeInPage 2s ease forwards;
             opacity: 0;
         }
 
-        @keyframes fadeInPage {
-            to { opacity: 1; }
-        }
+        @keyframes fadeInPage { to { opacity: 1; } }
 
-        /* Дышащий фон */
+        /* Фон */
         .bg-glow {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2;
             background: radial-gradient(circle at center, #111 0%, #000 100%);
-            animation: pulseBg 12s infinite alternate;
+            animation: pulseBg 10s infinite alternate;
         }
-
         @keyframes pulseBg {
             0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
+            100% { transform: scale(1.05); }
         }
 
-        /* Контейнер для майнкрафт предметов */
+        /* Летающие предметы (SVG и Шрифтовые иконки) */
         #float-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -55,10 +53,8 @@
 
         .mc-item {
             position: absolute;
-            width: 45px;
-            height: 45px;
-            image-rendering: pixelated; /* Для четкости пикселей */
-            opacity: 0.25;
+            color: rgba(255, 255, 255, 0.15);
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.1));
             animation: fly linear infinite;
         }
 
@@ -83,12 +79,11 @@
             font-size: clamp(3.5rem, 15vw, 10rem);
             letter-spacing: -4px;
             margin-bottom: 10px;
-            /* Плавное проявление заголовка */
-            animation: slideUp 1.5s ease-out;
+            animation: slideUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
+            from { transform: translateY(50px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
 
@@ -98,7 +93,6 @@
             letter-spacing: 10px;
             font-size: clamp(0.6rem, 2vw, 0.8rem);
             margin-bottom: 50px;
-            animation: fadeIn 3s ease-in;
         }
 
         /* Кнопки */
@@ -109,23 +103,23 @@
             color: #fff;
             padding: 18px 50px;
             border: 1px solid var(--border);
-            border-radius: 16px; /* Красивое округление */
+            border-radius: 18px;
             font-weight: 600;
             text-transform: uppercase;
             font-size: 0.85rem;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            transition: all 0.4s ease;
         }
 
         .btn:hover {
             background: #fff;
             color: #000;
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
         }
 
-        /* Секция магазина */
+        /* Магазин */
         .store {
             padding: 100px 20px;
             max-width: 1200px;
@@ -141,47 +135,37 @@
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 50px 40px;
-            transition: 0.5s;
-            display: flex;
-            flex-direction: column;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .card:hover {
             border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.05);
             transform: translateY(-10px);
         }
 
         .card h3 { font-family: 'Unbounded', sans-serif; font-size: 1.4rem; margin-bottom: 25px; }
 
-        .features {
-            list-style: none;
-            margin-bottom: 40px;
-            flex-grow: 1;
-        }
-
+        .features { list-style: none; margin-bottom: 40px; }
         .features li {
-            color: #888;
+            color: #777;
             font-size: 0.9rem;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
         }
-
         .features li::before {
-            content: "•";
-            color: #fff;
-            margin-right: 10px;
-            font-weight: bold;
+            content: "—";
+            color: #444;
+            margin-right: 12px;
         }
 
         .price {
             font-family: 'Unbounded', sans-serif;
             font-size: 2.8rem;
             margin-bottom: 30px;
-            letter-spacing: -2px;
         }
 
         .buy-now {
@@ -190,16 +174,14 @@
             background: #fff;
             color: #000;
             padding: 20px;
-            border-radius: 14px;
+            border-radius: 16px;
             text-decoration: none;
             font-weight: 700;
             text-transform: uppercase;
             transition: 0.3s;
         }
 
-        .buy-now:hover { transform: scale(0.97); opacity: 0.9; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .buy-now:hover { opacity: 0.8; transform: scale(0.98); }
 
     </style>
 </head>
@@ -219,82 +201,78 @@
 
     <div id="shop" class="store">
         <div class="grid">
-            <!-- PVE -->
             <div class="card">
                 <h3>PVE EDITION</h3>
                 <ul class="features">
-                    <li>Auto-Farm (Умная добыча)</li>
-                    <li>Mob Aura 360°</li>
-                    <li>X-Ray (Настройка фильтров)</li>
-                    <li>FullBright (Яркий мир)</li>
+                    <li>Auto-Farm (Оптимизированный)</li>
+                    <li>Mob Aura (360 градусов)</li>
+                    <li>X-Ray & Tracers</li>
+                    <li>FullBright Mode</li>
                 </ul>
                 <div class="price">390₽</div>
-                <a href="https://t.me" class="buy-now">Приобрести</a>
+                <a href="https://t.me" class="buy-now">Купить</a>
             </div>
 
-            <!-- PVP -->
             <div class="card">
                 <h3>PVP EDITION</h3>
                 <ul class="features">
-                    <li>KillAura (Bypass Anticheats)</li>
-                    <li>Velocity & Reach (Настройка)</li>
-                    <li>Auto-Totem & Auto-Gap</li>
-                    <li>NoSlowdown & TargetHUD</li>
+                    <li>KillAura (Multi-Bypass)</li>
+                    <li>Velocity & Reach (Custom)</li>
+                    <li>Auto-Totem & CrystalAura</li>
+                    <li>TargetHUD & ESP</li>
                 </ul>
                 <div class="price">690₽</div>
-                <a href="https://t.me" class="buy-now">Приобрести</a>
+                <a href="https://t.me" class="buy-now">Купить</a>
             </div>
 
-            <!-- ULTIMATE -->
             <div class="card">
                 <h3>ULTIMATE</h3>
                 <ul class="features">
                     <li>Все функции PVE + PVP</li>
-                    <li>Private Beta (Новые обходы)</li>
-                    <li>Cloud Configs (Топ настройки)</li>
-                    <li>Priority Support 24/7</li>
+                    <li>Private Beta билды</li>
+                    <li>Обход проверок модерации</li>
+                    <li>Приоритетный саппорт</li>
                 </ul>
                 <div class="price">1290₽</div>
-                <a href="https://t.me" class="buy-now">Приобрести</a>
+                <a href="https://t.me" class="buy-now">Купить</a>
             </div>
         </div>
     </div>
 
     <script>
-        // Стабильный скрипт для майнкрафт-предметов
         const container = document.getElementById('float-container');
-        const items = [
-            'https://minecraft.wiki',
-            'https://minecraft.wiki',
-            'https://minecraft.wiki',
-            'https://minecraft.wiki',
-            'https://minecraft.wiki'
+        // Используем FontAwesome иконки вместо ссылок на картинки (они 100% прогрузятся)
+        const icons = [
+            'fa-solid fa-sword',        // Меч
+            'fa-solid fa-gem',         // Кристалл
+            'fa-solid fa-apple-whole', // Яблоко
+            'fa-solid fa-shield-cat',  // Тотем (похожий символ)
+            'fa-solid fa-flask-vial',  // Зелье
+            'fa-solid fa-skull'        // Череп
         ];
 
         function spawnItem() {
-            const img = document.createElement('img');
-            img.src = items[Math.floor(Math.random() * items.length)];
-            img.className = 'mc-item';
+            const item = document.createElement('i');
+            const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+            
+            item.className = `${randomIcon} mc-item`;
             
             const startX = Math.random() * 100;
-            const duration = 12 + Math.random() * 10;
-            const size = 30 + Math.random() * 25;
+            const duration = 10 + Math.random() * 15;
+            const size = 20 + Math.random() * 30;
 
-            img.style.left = startX + 'vw';
-            img.style.width = size + 'px';
-            img.style.height = 'auto';
-            img.style.animationDuration = duration + 's';
-            img.style.animationDelay = '-' + (Math.random() * 10) + 's'; // Чтобы сразу летали при загрузке
+            item.style.left = startX + 'vw';
+            item.style.fontSize = size + 'px';
+            item.style.animationDuration = duration + 's';
             
-            container.appendChild(img);
+            container.appendChild(item);
 
-            // Чистим память
-            setTimeout(() => img.remove(), duration * 1000);
+            setTimeout(() => item.remove(), duration * 1000);
         }
 
-        // Создаем предметы
-        setInterval(spawnItem, 1200);
-        for(let i=0; i<12; i++) spawnItem();
+        // Создаем предметы сразу и запускаем цикл
+        setInterval(spawnItem, 1000);
+        for(let i=0; i<15; i++) spawnItem();
     </script>
 
 </body>
