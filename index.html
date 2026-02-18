@@ -24,22 +24,11 @@
             color: var(--accent);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            animation: fadeInPage 2s ease forwards;
         }
-
-        @keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
 
         /* КУРСОР */
-        #cursor {
-            width: 6px; height: 6px; background: #fff;
-            border-radius: 50%; position: fixed; pointer-events: none;
-            z-index: 9999; transition: transform 0.1s ease;
-        }
-        #cursor-follower {
-            width: 26px; height: 26px; border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 50%; position: fixed; pointer-events: none;
-            z-index: 9998; transition: transform 0.2s ease-out;
-        }
+        #cursor { width: 6px; height: 6px; background: #fff; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; }
+        #cursor-follower { width: 26px; height: 26px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: transform 0.1s ease-out; }
 
         /* СТАТУС БАР */
         .status-bar {
@@ -49,35 +38,28 @@
             background: rgba(0,0,0,0.5); padding: 8px 18px; border-radius: 50px;
             border: 1px solid var(--border); backdrop-filter: blur(10px);
         }
-        .dot { width: 6px; height: 6px; background: var(--status-green); border-radius: 50%; box-shadow: 0 0 12px var(--status-green); }
+        .dot { width: 6px; height: 6px; background: var(--status-green); border-radius: 50%; box-shadow: 0 0 10px var(--status-green); }
 
         /* ГЛАВНЫЙ ЭКРАН */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(3.5rem, 12vw, 7rem); letter-spacing: -2px; margin-bottom: 10px; transition: 0.5s; }
-        h1:hover { letter-spacing: 15px; opacity: 0.8; }
+        h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(3.5rem, 12vw, 7rem); margin-bottom: 10px; }
         .subtitle { color: var(--text-dim); text-transform: uppercase; letter-spacing: 12px; font-size: 0.65rem; margin-bottom: 45px; }
         
         .btn-wrap { display: flex; gap: 20px; }
-        .btn { text-decoration: none; color: #fff; padding: 16px 45px; border: 1px solid var(--border); border-radius: 14px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; background: rgba(255,255,255,0.01); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .btn:hover { background: #fff; color: #000; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255,255,255,0.1); }
+        .btn { text-decoration: none; color: #fff; padding: 16px 45px; border: 1px solid var(--border); border-radius: 14px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; background: rgba(255,255,255,0.01); transition: 0.3s; }
+        .btn:hover { background: #fff; color: #000; transform: translateY(-5px); }
 
         /* МАГАЗИН */
-        .store { padding: 120px 20px; max-width: 1100px; margin: 0 auto; }
+        .store { padding: 100px 20px; max-width: 1100px; margin: 0 auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 50px 40px; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(5px); }
-        .card:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-8px); background: rgba(255,255,255,0.04); }
-        .price { font-family: 'Unbounded', sans-serif; font-size: 2.5rem; margin: 25px 0; }
-        .buy { display: block; text-align: center; background: #fff; color: #000; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: 700; text-transform: uppercase; transition: 0.3s; }
-        .buy:hover { letter-spacing: 3px; transform: scale(1.02); }
+        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 40px; transition: 0.4s; }
+        .card:hover { border-color: #fff; transform: translateY(-5px); }
+        .price { font-family: 'Unbounded', sans-serif; font-size: 2.5rem; margin: 20px 0; }
+        .buy { display: block; text-align: center; background: #fff; color: #000; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: 700; text-transform: uppercase; }
 
-        /* ФУТЕР */
-        footer { padding: 100px 0; display: flex; flex-direction: column; align-items: center; gap: 25px; border-top: 1px solid var(--border); margin-top: 50px; }
-        .tg-link { display: flex; align-items: center; gap: 14px; text-decoration: none; color: rgba(255,255,255,0.6); font-weight: 600; padding: 14px 30px; border-radius: 50px; border: 1px solid var(--border); transition: 0.5s; font-size: 0.75rem; letter-spacing: 1px; }
-        .tg-link:hover { border-color: var(--tg-color); color: #fff; box-shadow: 0 0 40px rgba(34, 158, 217, 0.15); }
-        .tg-icon { width: 18px; height: 18px; fill: currentColor; }
-
-        /* ПЛАВАЮЩИЕ КРИСТАЛЛЫ */
-        .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 50% 50%, #0a0a0a 0%, #000 100%); }
+        footer { padding: 80px 0; display: flex; flex-direction: column; align-items: center; border-top: 1px solid var(--border); }
+        .tg-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; padding: 12px 30px; border-radius: 50px; border: 1px solid var(--border); transition: 0.4s; font-size: 0.8rem; }
+        .tg-link:hover { border-color: var(--tg-color); box-shadow: 0 0 20px rgba(34, 158, 217, 0.2); }
     </style>
 </head>
 <body>
@@ -85,89 +67,75 @@
     <div id="cursor"></div>
     <div id="cursor-follower"></div>
 
-    <div class="status-bar"><div class="dot"></div> SYSTEM STATUS: <span style="margin-left:5px">UNDETECTED</span></div>
-    <div class="bg-glow"></div>
+    <div class="status-bar"><div class="dot"></div> SYSTEM STATUS: UNDETECTED</div>
 
     <section class="hero">
         <h1 class="glitch">LESS</h1>
         <div class="subtitle">Premium Utility Solution</div>
         <div class="btn-wrap">
             <a href="#shop" class="btn">Магазин</a>
-            <a href="https://t.me" target="_blank" class="btn">Новости</a>
+            <a href="https://t.me/+OeNoSsUyC8Y1NmQy" target="_blank" class="btn">Новости</a>
         </div>
     </section>
 
     <section id="shop" class="store">
         <div class="grid">
             <div class="card">
-                <h3 style="letter-spacing: 3px; color: #444;">PVE EDITION</h3>
+                <h3 style="letter-spacing: 2px;">PVE EDITION</h3>
                 <div class="price">390₽</div>
-                <a href="https://t.me" target="_blank" class="buy">Приобрести</a>
+                <a href="https://t.me/+OeNoSsUyC8Y1NmQy" target="_blank" class="buy">Приобрести</a>
             </div>
             <div class="card">
-                <h3 style="letter-spacing: 3px; color: #444;">PVP EDITION</h3>
+                <h3 style="letter-spacing: 2px;">PVP EDITION</h3>
                 <div class="price">690₽</div>
-                <a href="https://t.me" target="_blank" class="buy">Приобрести</a>
+                <a href="https://t.me/+OeNoSsUyC8Y1NmQy" target="_blank" class="buy">Приобрести</a>
             </div>
         </div>
     </section>
 
     <footer>
-        <a href="https://t.me" target="_blank" class="tg-link">
-            <svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.45-.42-1.39-.89.03-.25.38-.51 1.07-.77 4.18-1.82 6.97-3.02 8.37-3.6 3.98-1.66 4.81-1.94 5.35-1.95.12 0 .38.03.55.17.14.11.18.26.2.37.02.08.02.23 0 .36z""")/>></svg>
-            TELEGRAM COMMUNITY
-        </a>
-        <p style="font-size: 0.6rem; color: #222; margin-top: 20px; letter-spacing: 2px;">EST. 2024 • DESIGNED FOR PERFORMANCE</p>
+        <a href="https://t.me/+OeNoSsUyC8Y1NmQy" target="_blank" class="tg-link">JOIN TELEGRAM</a>
     </footer>
 
-    <!-- АУДИО (Успокаивающие) -->
-    <audio id="click-sound" src="https://assets.mixkit.co" preload="auto"></audio>
-    <audio id="bg-music" src="https://cdn.pixabay.com" loop></audio>
-
+    <!-- Аудио через JS для стабильности -->
     <script>
         const cursor = document.getElementById('cursor');
         const follower = document.getElementById('cursor-follower');
-        const clickSfx = document.getElementById('click-sound');
-        const bgMusic = document.getElementById('bg-music');
         
-        bgMusic.volume = 0.15; // Очень тихий фон
-        clickSfx.volume = 0.4;
+        // Создаем звуки программно
+        const clickSfx = new Audio('https://cdn.pixabay.com');
+        const bgMusic = new Audio('https://cdn.pixabay.com');
+        bgMusic.loop = true;
+        bgMusic.volume = 0.1;
+
+        let musicStarted = false;
 
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
-            
-            follower.style.left = (e.clientX - 13) + 'px';
-            follower.style.top = (e.clientY - 13) + 'px';
+            setTimeout(() => {
+                follower.style.left = (e.clientX - 13) + 'px';
+                follower.style.top = (e.clientY - 13) + 'px';
+            }, 50);
         });
 
-        // Взаимодействие
+        // Главный обработчик для звука и ссылок
         document.addEventListener('mousedown', () => {
-            if (bgMusic.paused) bgMusic.play(); 
+            // Запускаем музыку при первом клике
+            if (!musicStarted) {
+                bgMusic.play().catch(e => console.log("Нужен клик"));
+                musicStarted = true;
+            }
+            
+            // Звук клика
             clickSfx.currentTime = 0;
             clickSfx.play();
+            
             follower.style.transform = 'scale(0.8)';
         });
 
         document.addEventListener('mouseup', () => {
             follower.style.transform = 'scale(1)';
-        });
-
-        // Увеличение курсора при наведении
-        const links = document.querySelectorAll('a, .card');
-        links.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                follower.style.width = '50px';
-                follower.style.height = '50px';
-                follower.style.left = (parseInt(follower.style.left) - 12) + 'px';
-                follower.style.top = (parseInt(follower.style.top) - 12) + 'px';
-                follower.style.borderColor = 'rgba(255,255,255,0.4)';
-            });
-            link.addEventListener('mouseleave', () => {
-                follower.style.width = '26px';
-                follower.style.height = '26px';
-                follower.style.borderColor = 'rgba(255,255,255,0.15)';
-            });
         });
     </script>
 </body>
