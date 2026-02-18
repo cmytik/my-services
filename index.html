@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LESS CLIENT — Official</title>
-    <!-- Иконки, которые точно работают -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root {
@@ -13,7 +11,6 @@
             --accent: #ffffff;
             --card-bg: rgba(255, 255, 255, 0.02);
             --border: rgba(255, 255, 255, 0.08);
-            --text-dim: #555;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -43,7 +40,7 @@
             100% { transform: scale(1.05); }
         }
 
-        /* Летающие предметы (SVG и Шрифтовые иконки) */
+        /* Контейнер для предметов */
         #float-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -51,10 +48,11 @@
             z-index: -1;
         }
 
-        .mc-item {
+        /* Стиль для встроенных SVG иконок */
+        .mc-icon {
             position: absolute;
-            color: rgba(255, 255, 255, 0.15);
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.1));
+            fill: rgba(255, 255, 255, 0.15); /* Цвет иконок */
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
             animation: fly linear infinite;
         }
 
@@ -88,7 +86,7 @@
         }
 
         .subtitle {
-            color: var(--text-dim);
+            color: #444;
             text-transform: uppercase;
             letter-spacing: 10px;
             font-size: clamp(0.6rem, 2vw, 0.8rem);
@@ -116,7 +114,6 @@
             background: #fff;
             color: #000;
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
         }
 
         /* Магазин */
@@ -137,7 +134,7 @@
             border: 1px solid var(--border);
             border-radius: 28px;
             padding: 50px 40px;
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.5s;
         }
 
         .card:hover {
@@ -150,17 +147,13 @@
 
         .features { list-style: none; margin-bottom: 40px; }
         .features li {
-            color: #777;
+            color: #666;
             font-size: 0.9rem;
             margin-bottom: 14px;
             display: flex;
             align-items: center;
         }
-        .features li::before {
-            content: "—";
-            color: #444;
-            margin-right: 12px;
-        }
+        .features li::before { content: "—"; margin-right: 12px; }
 
         .price {
             font-family: 'Unbounded', sans-serif;
@@ -181,7 +174,7 @@
             transition: 0.3s;
         }
 
-        .buy-now:hover { opacity: 0.8; transform: scale(0.98); }
+        .buy-now:hover { opacity: 0.8; }
 
     </style>
 </head>
@@ -241,38 +234,39 @@
 
     <script>
         const container = document.getElementById('float-container');
-        // Используем FontAwesome иконки вместо ссылок на картинки (они 100% прогрузятся)
-        const icons = [
-            'fa-solid fa-sword',        // Меч
-            'fa-solid fa-gem',         // Кристалл
-            'fa-solid fa-apple-whole', // Яблоко
-            'fa-solid fa-shield-cat',  // Тотем (похожий символ)
-            'fa-solid fa-flask-vial',  // Зелье
-            'fa-solid fa-skull'        // Череп
+        
+        // Встроенные SVG-коды иконок (Меч, Кристалл, Зелье, Череп)
+        const svgPaths = [
+            '<path d="M437.019 74.98c-48.944-48.944-128.295-48.944-177.239 0l-224.8 224.8c-4.686 4.686-4.686 12.284 0 16.971l33.941 33.941c4.686 4.686 12.284 4.686 16.971 0l33.941-33.941l152.735 152.735l-33.941 33.941c-4.686 4.686-4.686 12.284 0 16.971l33.941 33.941c4.686 4.686 12.284 4.686 16.971 0l224.8-224.8c48.944-48.944 48.944-128.295 0-177.239z""")/>>', // Меч
+            '<path d="M256 0l128 128l-128 384l-128-384z""")/>>', // Кристалл
+            '<path d="M384 320h-64v-192l64-64v-64h-256v64l64 64v192h-64l-128 192v64h512v-64z""")/>>', // Колба
+            '<path d="M256 0c-114.875 0-208 93.125-208 208v16c0 102.344 64.688 189.656 154.594 222.156l-26.594 65.844h160l-26.594-65.844c89.906-32.5 154.594-119.813 154.594-222.156v-16c0-114.875-93.125-208-208-208z""")/>>' // Череп
         ];
 
         function spawnItem() {
-            const item = document.createElement('i');
-            const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+            const svg = document.createElementNS("http://www.w3.org", "svg");
+            const randomPath = svgPaths[Math.floor(Math.random() * svgPaths.length)];
             
-            item.className = `${randomIcon} mc-item`;
+            svg.setAttribute("viewBox", "0 0 512 512");
+            svg.setAttribute("class", "mc-icon");
+            svg.innerHTML = randomPath;
             
             const startX = Math.random() * 100;
-            const duration = 10 + Math.random() * 15;
-            const size = 20 + Math.random() * 30;
+            const duration = 12 + Math.random() * 10;
+            const size = 25 + Math.random() * 25;
 
-            item.style.left = startX + 'vw';
-            item.style.fontSize = size + 'px';
-            item.style.animationDuration = duration + 's';
+            svg.style.left = startX + 'vw';
+            svg.style.width = size + 'px';
+            svg.style.height = size + 'px';
+            svg.style.animationDuration = duration + 's';
             
-            container.appendChild(item);
-
-            setTimeout(() => item.remove(), duration * 1000);
+            container.appendChild(svg);
+            setTimeout(() => svg.remove(), duration * 1000);
         }
 
-        // Создаем предметы сразу и запускаем цикл
-        setInterval(spawnItem, 1000);
-        for(let i=0; i<15; i++) spawnItem();
+        // Запуск анимации
+        setInterval(spawnItem, 1500);
+        for(let i=0; i<10; i++) spawnItem();
     </script>
 
 </body>
