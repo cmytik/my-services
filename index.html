@@ -31,7 +31,6 @@
         .status-bar { font-size: 0.6rem; letter-spacing: 2px; font-weight: 700; display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.5); padding: 8px 18px; border-radius: 50px; border: 1px solid var(--border); backdrop-filter: blur(10px); }
         .dot { width: 6px; height: 6px; background: var(--status-green); border-radius: 50%; box-shadow: 0 0 10px var(--status-green); animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-        .online-count { font-size: 0.55rem; color: var(--text-dim); letter-spacing: 1px; font-weight: 600; }
 
         /* ГЛАВНЫЙ ЭКРАН */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
@@ -50,14 +49,17 @@
         .card h3 { letter-spacing: 2px; color: rgba(255,255,255,0.8); margin-bottom: 15px; font-size: 0.9rem; }
         .card p { color: #666; font-size: 0.8rem; line-height: 1.8; margin-bottom: 25px; flex-grow: 1; }
         .price { font-family: 'Unbounded', sans-serif; font-size: 2.5rem; margin-bottom: 25px; }
-        .buy-btn { display: block; width: 100%; text-align: center; background: #fff; color: #000; padding: 18px; border-radius: 12px; font-weight: 700; text-transform: uppercase; transition: 0.3s; border: none; font-size: 0.7rem; }
+        .buy-btn { cursor: pointer; display: block; width: 100%; text-align: center; background: #fff; color: #000; padding: 18px; border-radius: 12px; font-weight: 700; text-transform: uppercase; transition: 0.3s; border: none; font-size: 0.7rem; }
 
-        /* ОТЗЫВЫ */
-        .reviews { padding: 100px 20px; max-width: 800px; margin: 0 auto; }
-        .review-card { background: var(--card-bg); padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 25px; }
+        /* ОТЗЫВЫ (СЛАЙДЕР) */
+        .reviews { padding: 100px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
+        .reviews-slider { position: relative; height: 180px; overflow: hidden; }
+        .review-card { position: absolute; width: 100%; opacity: 0; transition: 0.8s; pointer-events: none; background: var(--card-bg); padding: 40px; border-radius: 24px; border: 1px solid var(--border); }
+        .review-card.active { opacity: 1; pointer-events: auto; }
         .review-text { font-style: italic; color: #ccc; margin-bottom: 15px; font-size: 0.85rem; line-height: 1.6; }
+        .review-author { color: var(--status-green); font-weight: 700; font-size: 0.7rem; text-transform: uppercase; }
 
-        /* FAQ (АВТО-ОТКРЫТИЕ) */
+        /* FAQ */
         .faq { padding: 100px 20px; max-width: 800px; margin: 0 auto; }
         .faq-item { margin-bottom: 15px; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: 0.3s; }
         .faq-q { padding: 20px; background: rgba(255,255,255,0.01); font-weight: 600; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
@@ -65,27 +67,15 @@
         .faq-item:hover { border-color: rgba(255,255,255,0.2); }
         .faq-item:hover .faq-a { max-height: 200px; padding: 20px; }
 
-        /* CHANGELOG */
-        .changelog { padding: 100px 20px; max-width: 700px; margin: 0 auto; }
-        .log-item { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
-        .log-version { font-weight: 700; color: var(--status-green); }
-
         /* МОДАЛКА */
         #modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10002; backdrop-filter: blur(15px); }
-        #modal-overlay.active { display: flex; cursor: default; }
-        #modal-overlay.active * { cursor: default; }
+        #modal-overlay.active { display: flex; }
         .modal { background: #0a0a0a; border: 1px solid var(--border); padding: 40px; border-radius: 30px; max-width: 500px; width: 90%; }
         .modal h2 { font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; color: #fff; }
         .modal-text { font-size: 0.75rem; color: #666; line-height: 1.6; margin-bottom: 25px; }
 
-        /* ФУТЕР */
+        /* ПРОЧЕЕ */
         footer { padding: 80px 20px; border-top: 1px solid var(--border); margin-top: 100px; text-align: center; }
-        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; text-align: left; }
-        .footer-box h4 { font-size: 0.65rem; letter-spacing: 2px; color: #888; margin-bottom: 20px; text-transform: uppercase; }
-        .footer-box p { font-size: 0.7rem; color: #444; line-height: 1.8; }
-        
-        .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
         .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at center, #0d0d0d 0%, #000 100%); }
     </style>
 </head>
@@ -99,9 +89,9 @@
         <div class="modal">
             <h2>ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ</h2>
             <div class="modal-text">
-                <b>1. О продукте:</b> LESS — это вспомогательное ПО для оптимизации игрового процесса и автоматизации рутинных действий.<br><br>
-                <b>2. Риски:</b> Автор не несет ответственности за любые ограничения (баны) игровых аккаунтов. Используя ассистент, вы принимаете все риски на себя.<br><br>
-                <b>3. Возврат:</b> Цифровой товар возврату не подлежит после получения лицензионного ключа.
+                <b>1. О продукте:</b> LESS — это вспомогательное ПО для оптимизации игрового процесса.<br><br>
+                <b>2. Риски:</b> Автор не несет ответственности за любые ограничения (баны) игровых аккаунтов.<br><br>
+                <b>3. Возврат:</b> Цифровой товар возврату не подлежит после получения ключа.
             </div>
             <button class="buy-btn" onclick="acceptLegal()">ПРИНЯТЬ И ОПЛАТИТЬ</button>
         </div>
@@ -109,133 +99,81 @@
 
     <div class="status-container">
         <div class="status-bar"><div class="dot"></div> SYSTEM STATUS: STABLE</div>
-        <div class="online-count">ACTIVE USERS: <span id="user-count">1,248</span></div>
     </div>
 
     <div class="bg-glow"></div>
 
-    <section class="hero reveal">
+    <section class="hero">
         <h1>LESS</h1>
         <div class="subtitle">Experience Optimization Utility</div>
         <div class="btn-wrap">
             <a href="#shop" class="btn">Магазин</a>
-            <a href="https://t.me" target="_blank" class="btn">Новости</a>
         </div>
     </section>
 
-    <section id="shop" class="store reveal">
+    <section id="shop" class="store">
         <div class="grid">
             <div class="card">
-                <h3>PVE EDITION</h3>
-                <p>— Inventory Helper (Автоматизация)<br>— Visual Optimization (Визуалы)<br>— Environment Helper</p>
-                <div class="price">390₽</div>
-                <button class="buy-btn" onclick="openLegal()">Приобрести</button>
-            </div>
-            <div class="card" style="border-color: rgba(255,255,255,0.15);">
-                <h3>COMBAT EDITION</h3>
-                <p>— Combat Assistant (Ассистент)<br>— Dynamic Response (Реакция)<br>— Priority Support 24/7</p>
-                <div class="price">690₽</div>
-                <button class="buy-btn" onclick="openLegal()">Приобрести</button>
-            </div>
-            <div class="card">
-                <h3>ULTIMATE ACCESS</h3>
-                <p>— Весь функционал PVE + COMBAT<br>— Доступ к закрытым тестам<br>— Пожизненные обновления</p>
-                <div class="price">1290₽</div>
-                <button class="buy-btn" onclick="openLegal()">Приобрести</button>
+                <h3>PREMIUM ACCESS</h3>
+                <p>Полный доступ ко всем функциям оптимизации на 30 дней.</p>
+                <div class="price">19.99$</div>
+                <button class="buy-btn" onclick="openLegal()">ПРИОБРЕСТИ</button>
             </div>
         </div>
     </section>
 
-    <section class="reviews reveal">
-        <h2 style="margin-bottom:50px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px; text-align: center;">ОТЗЫВЫ</h2>
-        <div class="review-card">
-            <p class="review-text">«Лучший ассистент для игры на анархии. Оптимизация на высоте, FPS не падает, а визуалы выглядят очень стильно.»</p>
-            <p style="color: var(--status-green); font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">@USER_1</p>
-        </div>
-        <div class="review-card">
-            <p class="review-text">«Пользуюсь неделю. Combat Assistant работает максимально плавно. Техподдержка отвечает быстро.»</p>
-            <p style="color: var(--status-green); font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">@USER_2</p>
-        </div>
-    </section>
-
-    <section class="faq reveal">
-        <h2 style="margin-bottom:40px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px; text-align: center;">F.A.Q.</h2>
-        <div class="faq-item">
-            <div class="faq-q">Безопасно ли использовать LESS?</div>
-            <div class="faq-a">Наш ассистент использует передовые алгоритмы оптимизации. Мы всегда рекомендуем соблюдать осторожность при использовании.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-q">Как происходит активация?</div>
-            <div class="faq-a">После оплаты вы получите уникальный ключ в Telegram. Введите его в нашем лаунчере для доступа.</div>
-        </div>
-    </section>
-
-    <section class="changelog reveal">
-        <h2 style="margin-bottom:40px; font-family:'Unbounded'; font-size: 0.9rem; letter-spacing: 3px;">CHANGELOG</h2>
-        <div class="log-item">
-            <span class="log-version">v1.0.2 — STABLE</span>
-            <span style="color: #444;">18.02.2024</span>
-        </div>
-        <div class="log-item">
-            <p style="color: #666; font-size: 0.75rem; line-height: 1.6;">— Обновлена система Inventory Helper<br>— Оптимизирован Combat Assistant для 1.16.5<br>— Обновлены обходы античитов.</p>
+    <section class="reviews">
+        <div class="reviews-slider">
+            <div class="review-card active">
+                <p class="review-text">"Лучшее решение для плавной игры. Поддержка отвечает мгновенно!"</p>
+                <div class="review-author">User_777</div>
+            </div>
+            <div class="review-card">
+                <p class="review-text">"Пользуюсь уже месяц, полет нормальный. Статус всегда Stable."</p>
+                <div class="review-author">Alex_Dark</div>
+            </div>
+            <div class="review-card">
+                <p class="review-text">"Визуально сайт 10/10, софт работает как часы. Рекомендую."</p>
+                <div class="review-author">Mistic_Player</div>
+            </div>
         </div>
     </section>
 
     <footer>
-        <div class="footer-grid">
-            <div class="footer-box">
-                <h4>Legal Disclaimer</h4>
-                <p>ПО LESS является частным инструментом для улучшения игрового опыта. Мы выступаем за честную автоматизацию. Не является официальным продуктом Mojang.</p>
-            </div>
-            <div class="footer-box">
-                <h4>Support</h4>
-                <p>По вопросам приобретения и настройки обращайтесь в нашу поддержку в Telegram. Мы ответим вам в кратчайшие сроки.</p>
-            </div>
-        </div>
-        <div style="text-align:center; margin-top:60px; font-size:0.5rem; color:#222; letter-spacing:4px;">© 2024 LESS PROJECT. ALL RIGHTS RESERVED.</div>
+        <p style="color: #444; font-size: 0.7rem;">&copy; 2024 LESS Project. All rights reserved.</p>
     </footer>
 
     <script>
-        // ЛЕТЯЩИЕ ЧАСТИЦЫ
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize);
-        resize();
-        class Particle {
-            constructor() { this.x = Math.random() * canvas.width; this.y = canvas.height + Math.random() * 100; this.speed = 0.5 + Math.random() * 1; this.size = Math.random() * 2; this.opacity = Math.random() * 0.5; }
-            update() { this.y -= this.speed; if (this.y < -10) this.y = canvas.height + 10; }
-            draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
-        }
-        for(let i = 0; i < 100; i++) particles.push(new Particle());
-        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
-        animate();
-
-        // МОДАЛКА И МЫШКА
-        const modal = document.getElementById('modal-overlay');
-        function openLegal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
-        function acceptLegal() { window.location.href = "https://t.me"; }
-
+        // Управление курсором
         const cursor = document.getElementById('cursor');
         const follower = document.getElementById('cursor-follower');
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
-            follower.style.transform = `translate(${e.clientX - 13}px, ${e.clientY - 13}px)`;
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            follower.style.left = e.clientX - 10 + 'px';
+            follower.style.top = e.clientY - 10 + 'px';
         });
 
-        // ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        // Модальное окно
+        function openLegal() {
+            document.getElementById('modal-overlay').classList.add('active');
+        }
 
-        // СЧЕТЧИК ОНЛАЙНА
-        setInterval(() => {
-            const count = document.getElementById('user-count');
-            let current = parseInt(count.innerText.replace(',', ''));
-            count.innerText = (current + Math.floor(Math.random() * 5 - 2)).toLocaleString();
-        }, 3000);
+        function acceptLegal() {
+            document.getElementById('modal-overlay').classList.remove('active');
+            // Здесь можно добавить переход к оплате
+            alert("Переход к оплате...");
+        }
+
+        // Авто-слайдер отзывов
+        let currentReview = 0;
+        const reviews = document.querySelectorAll('.review-card');
+        function nextReview() {
+            reviews[currentReview].classList.remove('active');
+            currentReview = (currentReview + 1) % reviews.length;
+            reviews[currentReview].classList.add('active');
+        }
+        setInterval(nextReview, 4000);
     </script>
 </body>
 </html>
